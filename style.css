@@ -2991,6 +2991,949 @@ img {
 
 
 /* =========================================================
+   MOBILE POLISH + TOUCH OPTIMIZATION
+========================================================= */
+
+@media (max-width: 760px) {
+
+    html {
+        scroll-padding-top: 70px;
+    }
+
+
+    .container {
+        width: min(
+            calc(100% - 32px),
+            var(--container)
+        );
+    }
+
+
+    .section {
+        padding: 74px 0;
+    }
+
+
+    .header {
+        background: rgba(2, 6, 12, 0.94);
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        border-bottom-color: rgba(56, 182, 255, 0.07);
+    }
+
+
+    .navbar {
+        min-height: 70px;
+
+        gap: 16px;
+    }
+
+
+    .logo {
+        font-size: 22px;
+    }
+
+
+    .menu-button {
+        width: 46px;
+        height: 46px;
+
+        border-radius: 10px;
+    }
+
+
+    .menu-button span {
+        width: 20px;
+    }
+
+
+    .nav-links {
+        top: 82px;
+
+        left: 16px;
+        right: 16px;
+
+        max-height: calc(100dvh - 100px);
+
+        overflow-y: auto;
+
+        padding: 16px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.45);
+    }
+
+
+    .nav-link {
+        min-height: 46px;
+
+        display: flex;
+
+        align-items: center;
+
+        padding: 0 13px;
+
+        border-radius: 8px;
+    }
+
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(56, 182, 255, 0.055);
+    }
+
+
+    /* =====================================================
+       MOBILE HERO
+    ====================================================== */
+
+    .hero {
+        min-height: auto;
+
+        padding-top: 125px;
+        padding-bottom: 72px;
+
+        align-items: flex-start;
+    }
+
+
+    .hero-container {
+        gap: 42px;
+    }
+
+
+    .availability {
+        margin-bottom: 34px;
+
+        padding: 9px 13px;
+
+        font-size: 10.5px;
+
+        letter-spacing: 1.1px;
+    }
+
+
+    .hero-intro {
+        margin-bottom: 4px;
+
+        font-size: 16px;
+    }
+
+
+    .hero-title {
+        margin-bottom: 28px;
+
+        font-size: clamp(52px, 16vw, 68px);
+
+        line-height: 0.96;
+
+        letter-spacing: -4px;
+    }
+
+
+    .typing-row {
+        min-height: 34px;
+
+        margin-bottom: 22px;
+
+        gap: 7px;
+
+        flex-wrap: wrap;
+
+        font-size: 20px;
+
+        line-height: 1.4;
+    }
+
+
+    .typing-cursor {
+        height: 22px;
+    }
+
+
+    .hero-description {
+        max-width: 100%;
+
+        font-size: 15.5px;
+
+        line-height: 1.75;
+    }
+
+
+    .hero-buttons {
+        margin-top: 30px;
+
+        gap: 10px;
+    }
+
+
+    .button {
+        min-height: 54px;
+    }
+
+
+    .hero-socials {
+        margin-top: 36px;
+    }
+
+
+    /*
+       Hide the decorative desktop code editor on phones.
+       This greatly reduces hero height and improves speed.
+    */
+
+    .hero-visual {
+        display: none;
+    }
+
+
+    /* =====================================================
+       TECH MARQUEE
+    ====================================================== */
+
+    .tech-stack-section {
+        padding: 28px 0 34px;
+    }
+
+
+    .tech-stack-label {
+        margin-bottom: 22px;
+
+        gap: 10px;
+
+        padding: 0 16px;
+
+        text-align: center;
+
+        letter-spacing: 1.8px;
+    }
+
+
+    .tech-label-line {
+        width: 34px;
+
+        flex: 0 0 34px;
+    }
+
+
+    .tech-marquee-track {
+        gap: 12px;
+
+        animation-duration: 38s;
+    }
+
+
+    .tech-item {
+        min-width: 148px;
+        height: 60px;
+
+        gap: 10px;
+
+        padding: 0 15px;
+    }
+
+
+    .tech-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .tech-marquee-fade {
+        width: 42px;
+    }
+
+
+    /* =====================================================
+       SECTION HEADERS
+    ====================================================== */
+
+    .section-heading {
+        gap: 10px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .section-number {
+        flex: 0 0 auto;
+
+        font-size: 14px;
+    }
+
+
+    .section-heading h2 {
+        flex: 0 1 auto;
+
+        font-size: clamp(30px, 9vw, 36px);
+
+        line-height: 1.12;
+
+        white-space: nowrap;
+    }
+
+
+    .heading-line {
+        min-width: 20px;
+
+        max-width: 100px;
+    }
+
+
+    .section-description {
+        margin-bottom: 38px;
+
+        font-size: 15px;
+
+        line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       ABOUT
+    ====================================================== */
+
+    .about-grid {
+        margin-top: 34px;
+
+        gap: 42px;
+    }
+
+
+    .about-large {
+        margin-bottom: 24px;
+
+        font-size: 29px;
+
+        line-height: 1.35;
+    }
+
+
+    .about-text > p:not(.about-large) {
+        margin-bottom: 17px;
+
+        font-size: 15px;
+
+        line-height: 1.75;
+    }
+
+
+    /*
+       Instead of huge stacked stat cards,
+       keep the three stats compact in one row.
+    */
+
+    .about-stats {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 8px;
+
+        margin-top: 32px;
+    }
+
+
+    .stat-card {
+        min-width: 0;
+
+        padding: 14px 9px;
+
+        text-align: center;
+    }
+
+
+    .stat-card strong {
+        font-size: 22px;
+    }
+
+
+    .stat-card span {
+        display: block;
+
+        font-size: 8px;
+
+        line-height: 1.35;
+    }
+
+
+    /* =====================================================
+       GITHUB PROFILE
+    ====================================================== */
+
+    .about-card {
+        padding: 22px;
+
+        border-radius: 14px;
+    }
+
+
+    .github-profile-top {
+        gap: 13px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .github-avatar-wrapper,
+    .github-avatar {
+        width: 64px;
+        height: 64px;
+    }
+
+
+    .github-avatar {
+        border-radius: 14px;
+    }
+
+
+    .github-profile-identity {
+        min-width: 0;
+    }
+
+
+    .github-profile-identity h3 {
+        font-size: 21px;
+    }
+
+
+    .github-username {
+        display: block;
+
+        max-width: 100%;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+    }
+
+
+    .github-bio {
+        margin-top: 19px;
+
+        line-height: 1.7;
+    }
+
+
+    .github-profile-stats {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 7px;
+
+        margin-top: 19px;
+    }
+
+
+    .github-stat {
+        min-width: 0;
+
+        padding: 11px 5px;
+    }
+
+
+    .github-stat strong {
+        font-size: 19px;
+    }
+
+
+    .github-stat span {
+        display: block;
+
+        overflow: hidden;
+
+        font-size: 7px;
+
+        text-overflow: ellipsis;
+    }
+
+
+    .github-profile-button {
+        margin-top: 19px;
+    }
+
+
+    /* =====================================================
+       SKILLS
+    ====================================================== */
+
+    .skills-grid {
+        gap: 14px;
+    }
+
+
+    .skill-card {
+        padding: 22px;
+
+        border-radius: 13px;
+    }
+
+
+    .skill-icon {
+        width: 46px;
+        height: 46px;
+
+        margin-bottom: 17px;
+    }
+
+
+    .skill-card h3 {
+        font-size: 21px;
+    }
+
+
+    .skill-card p {
+        margin-top: 4px;
+
+        font-size: 14.5px;
+
+        line-height: 1.65;
+    }
+
+
+    .skill-level {
+        margin-top: 18px;
+    }
+
+
+    /* =====================================================
+       GITHUB ACTIVITY
+    ====================================================== */
+
+    .activity-terminal {
+        border-radius: 14px;
+    }
+
+
+    .activity-terminal-header,
+    .activity-profile-row,
+    .activity-terminal-footer {
+        min-height: 0;
+
+        padding: 14px 16px;
+
+        gap: 12px;
+    }
+
+
+    .activity-terminal-header {
+        min-height: 62px;
+    }
+
+
+    .activity-live-badge {
+        flex: 0 0 auto;
+
+        margin-left: auto;
+    }
+
+
+    .activity-profile-row {
+        gap: 8px;
+    }
+
+
+    .activity-item {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        padding: 18px 16px;
+    }
+
+
+    .activity-type {
+        width: fit-content;
+
+        min-width: 70px;
+
+        justify-self: start;
+
+        padding-inline: 10px;
+    }
+
+
+    .activity-title {
+        font-size: 14px;
+
+        line-height: 1.45;
+    }
+
+
+    .activity-detail,
+    .activity-time,
+    .activity-sync-time {
+        font-size: 9px;
+
+        line-height: 1.55;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    .activity-terminal-footer {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    /* =====================================================
+       PROJECTS
+    ====================================================== */
+
+    .projects-grid {
+        gap: 20px;
+    }
+
+
+    .project-card {
+        min-height: 0;
+
+        border-radius: 14px;
+    }
+
+
+    .project-image {
+        min-height: 220px;
+
+        padding: 24px 20px;
+    }
+
+
+    .project-screen {
+        max-width: 260px;
+    }
+
+
+    .project-content {
+        padding: 24px;
+    }
+
+
+    .project-content h3 {
+        margin: 10px 0;
+
+        font-size: 23px;
+
+        line-height: 1.2;
+
+        overflow-wrap: anywhere;
+    }
+
+
+    .project-content p {
+        font-size: 14.5px;
+
+        line-height: 1.7;
+    }
+
+
+    .project-tech {
+        margin-top: 18px;
+    }
+
+
+    .project-links {
+        margin-top: 20px;
+    }
+
+
+    .projects-view-all {
+        margin-top: 30px;
+    }
+
+
+    /* =====================================================
+       CONTACT
+    ====================================================== */
+
+    .contact-section {
+        padding-bottom: 90px;
+    }
+
+
+    .contact-layout {
+        gap: 42px;
+    }
+
+
+    .contact-info {
+        max-width: none;
+    }
+
+
+    .contact-eyebrow {
+        font-size: 9px;
+
+        letter-spacing: 2.2px;
+    }
+
+
+    .contact-info h3 {
+        margin: 16px 0 20px;
+
+        font-size:
+            clamp(36px, 10.5vw, 42px);
+
+        line-height: 1.05;
+
+        letter-spacing: -1.8px;
+    }
+
+
+    .contact-info p {
+        font-size: 15px;
+
+        line-height: 1.75;
+    }
+
+
+    .contact-info-list {
+        margin-top: 30px;
+
+        gap: 10px;
+    }
+
+
+    .contact-info-item {
+        padding: 12px;
+
+        gap: 12px;
+    }
+
+
+    .contact-info-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .contact-form-card {
+        padding: 22px;
+
+        border-radius: 14px;
+    }
+
+
+    .contact-form-header {
+        margin-bottom: 24px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .contact-form-header h3 {
+        font-size: 21px;
+    }
+
+
+    .form-group input {
+        height: 52px;
+    }
+
+
+    .form-group textarea {
+        min-height: 145px;
+    }
+
+
+    .contact-submit {
+        min-height: 55px;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    .footer-container {
+        gap: 14px;
+
+        padding: 28px 0;
+
+        text-align: center;
+    }
+
+
+    .back-top {
+        width: 44px;
+        height: 44px;
+    }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL MOBILE
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .container {
+        width: calc(100% - 30px);
+    }
+
+
+    .hero {
+        padding-top: 116px;
+
+        padding-bottom: 64px;
+    }
+
+
+    .hero-title {
+        font-size:
+            clamp(52px, 15.5vw, 60px);
+
+        letter-spacing: -3.5px;
+    }
+
+
+    .availability {
+        max-width: 100%;
+
+        white-space: nowrap;
+    }
+
+
+    .section {
+        padding: 68px 0;
+    }
+
+
+    .section-heading {
+        gap: 9px;
+    }
+
+
+    .section-heading h2 {
+        font-size:
+            clamp(29px, 8.6vw, 33px);
+    }
+
+
+    .heading-line {
+        min-width: 14px;
+
+        max-width: 70px;
+    }
+
+
+    .about-large {
+        font-size: 27px;
+    }
+
+
+    /*
+       Override the old mobile rule that stacked these.
+    */
+
+    .about-stats,
+    .github-profile-stats {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+
+    .stat-card strong {
+        font-size: 20px;
+    }
+
+
+    .activity-terminal-title {
+        display: none;
+    }
+
+
+    .activity-window-buttons {
+        gap: 6px;
+    }
+
+
+    .activity-live-badge {
+        padding: 5px 9px;
+
+        font-size: 9px;
+    }
+
+
+    .project-image {
+        min-height: 200px;
+
+        padding: 20px 16px;
+    }
+
+
+    .project-content {
+        padding: 21px;
+    }
+
+
+    .contact-info h3 {
+        font-size: 38px;
+    }
+
+
+    .contact-form-card {
+        padding: 20px;
+    }
+
+
+    .contact-form-header {
+        gap: 12px;
+    }
+
+
+    .tech-marquee-fade {
+        width: 30px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICE PERFORMANCE
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    #cursorGlow {
+        display: none;
+    }
+
+
+    .grid,
+    .orb {
+        animation: none;
+    }
+
+
+    .orb {
+        opacity: 0.18;
+
+        filter: blur(90px);
+    }
+
+
+    .skill-card:hover,
+    .project-card:hover,
+    .button-primary:hover:not(:disabled),
+    .button-secondary:hover:not(:disabled),
+    .contact-info-item:hover,
+    .github-nav:hover {
+        transform: none;
+    }
+
+}
+
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
@@ -3000,7 +3943,9 @@ img {
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
+
         animation-iteration-count: 1 !important;
+
         transition-duration: 0.01ms !important;
     }
 
