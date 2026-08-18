@@ -1,15 +1,20 @@
+// =========================================================
+// JL PERSONAL PORTFOLIO
+// =========================================================
+
 const GITHUB_USERNAME = "bacondummy555-ship-it";
 
 const GITHUB_REPOSITORY_LIMIT = 6;
 
 const GITHUB_ACTIVITY_LIMIT = 6;
 
-const GITHUB_CACHE_DURATION = 5 * 60 * 1000;
+const GITHUB_CACHE_DURATION =
+    5 * 60 * 1000;
 
 
-/* =========================================
-   LOADING SCREEN
-========================================= */
+// =========================================================
+// LOADING SCREEN
+// =========================================================
 
 const loaderStartTime =
     performance.now();
@@ -49,7 +54,7 @@ window.addEventListener(
         let percentage = 0;
 
 
-        const progressInterval =
+        const interval =
             setInterval(
                 () => {
 
@@ -91,13 +96,10 @@ window.addEventListener(
                     }
 
 
-                    if (
-                        percentage >=
-                        100
-                    ) {
+                    if (percentage >= 100) {
 
                         clearInterval(
-                            progressInterval
+                            interval
                         );
 
                     }
@@ -167,6 +169,9 @@ window.addEventListener(
 );
 
 
+// =========================================================
+// MAIN WEBSITE
+// =========================================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -208,9 +213,9 @@ document.addEventListener(
             );
 
 
-        /* =========================================
-           HEADER
-        ========================================= */
+        // =================================================
+        // HEADER
+        // =================================================
 
         function updateHeader() {
 
@@ -236,9 +241,9 @@ document.addEventListener(
         updateHeader();
 
 
-        /* =========================================
-           MOBILE MENU
-        ========================================= */
+        // =================================================
+        // MOBILE MENU
+        // =================================================
 
         if (
             menuButton &&
@@ -287,9 +292,9 @@ document.addEventListener(
         );
 
 
-        /* =========================================
-           CURSOR
-        ========================================= */
+        // =================================================
+        // CURSOR GLOW
+        // =================================================
 
         if (cursorGlow) {
 
@@ -300,8 +305,10 @@ document.addEventListener(
                     cursorGlow.style.left =
                         `${event.clientX}px`;
 
+
                     cursorGlow.style.top =
                         `${event.clientY}px`;
+
 
                     cursorGlow.style.opacity =
                         "1";
@@ -309,12 +316,23 @@ document.addEventListener(
                 }
             );
 
+
+            document.addEventListener(
+                "mouseleave",
+                () => {
+
+                    cursorGlow.style.opacity =
+                        "0";
+
+                }
+            );
+
         }
 
 
-        /* =========================================
-           TYPEWRITER
-        ========================================= */
+        // =================================================
+        // TYPEWRITER
+        // =================================================
 
         const words = [
 
@@ -394,8 +412,7 @@ document.addEventListener(
 
 
                 if (
-                    characterIndex ===
-                    0
+                    characterIndex === 0
                 ) {
 
                     deleting = false;
@@ -432,9 +449,9 @@ document.addEventListener(
         typeWriter();
 
 
-        /* =========================================
-           REVEAL
-        ========================================= */
+        // =================================================
+        // REVEAL
+        // =================================================
 
         const revealObserver =
             new IntersectionObserver(
@@ -490,9 +507,9 @@ document.addEventListener(
         observeRevealElements();
 
 
-        /* =========================================
-           ACTIVE NAV
-        ========================================= */
+        // =================================================
+        // ACTIVE NAV
+        // =================================================
 
         const sections =
             document.querySelectorAll(
@@ -550,9 +567,9 @@ document.addEventListener(
         updateNavigation();
 
 
-        /* =========================================
-           COUNTER
-        ========================================= */
+        // =================================================
+        // COUNTER
+        // =================================================
 
         function animateCounter(
             element,
@@ -564,6 +581,11 @@ document.addEventListener(
             }
 
 
+            target =
+                Number(target) ||
+                0;
+
+
             const start =
                 performance.now();
 
@@ -572,9 +594,7 @@ document.addEventListener(
                 900;
 
 
-            function frame(
-                now
-            ) {
+            function frame(now) {
 
                 const progress =
                     Math.min(
@@ -587,28 +607,34 @@ document.addEventListener(
                     );
 
 
+                const eased =
+                    1 -
+                    Math.pow(
+                        1 -
+                        progress,
+                        3
+                    );
+
+
                 element.textContent =
                     Math.floor(
                         target *
-                        (
-                            1 -
-                            Math.pow(
-                                1 -
-                                progress,
-                                3
-                            )
-                        )
+                        eased
                     );
 
 
                 if (
-                    progress <
-                    1
+                    progress < 1
                 ) {
 
                     requestAnimationFrame(
                         frame
                     );
+
+                } else {
+
+                    element.textContent =
+                        target;
 
                 }
 
@@ -622,9 +648,66 @@ document.addEventListener(
         }
 
 
-        /* =========================================
-           GITHUB CACHE
-        ========================================= */
+        const statNumbers =
+            document.querySelectorAll(
+                "[data-count]"
+            );
+
+
+        const statObserver =
+            new IntersectionObserver(
+                (entries) => {
+
+                    entries.forEach(
+                        (entry) => {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                if (
+                                    entry.target.id !==
+                                    "githubRepoCount"
+                                ) {
+
+                                    animateCounter(
+                                        entry.target,
+                                        entry.target.dataset.count
+                                    );
+
+                                }
+
+
+                                statObserver.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.5
+                }
+            );
+
+
+        statNumbers.forEach(
+            (stat) => {
+
+                statObserver.observe(
+                    stat
+                );
+
+            }
+        );
+
+
+        // =================================================
+        // GITHUB CACHE
+        // =================================================
 
         async function fetchGitHubCached(
             url,
@@ -654,6 +737,7 @@ document.addEventListener(
                     ) {
 
                         return {
+
                             data:
                                 parsed.data,
 
@@ -662,13 +746,21 @@ document.addEventListener(
 
                             timestamp:
                                 parsed.timestamp
+
                         };
 
                     }
 
                 }
 
-            } catch {}
+            } catch (error) {
+
+                console.warn(
+                    "GitHub cache read failed:",
+                    error
+                );
+
+            }
 
 
             const response =
@@ -710,23 +802,33 @@ document.addEventListener(
                     })
                 );
 
-            } catch {}
+            } catch (error) {
+
+                console.warn(
+                    "GitHub cache write failed:",
+                    error
+                );
+
+            }
 
 
             return {
+
                 data,
+
                 cached:
                     false,
 
                 timestamp
+
             };
 
         }
 
 
-        /* =========================================
-           PROFILE
-        ========================================= */
+        // =================================================
+        // GITHUB PROFILE
+        // =================================================
 
         async function loadGitHubProfile() {
 
@@ -753,6 +855,10 @@ document.addEventListener(
 
                     avatar.src =
                         profile.avatar_url;
+
+
+                    avatar.alt =
+                        `${profile.login} GitHub profile picture`;
 
                 }
 
@@ -783,6 +889,7 @@ document.addEventListener(
                     username.textContent =
                         `@${profile.login}`;
 
+
                     username.href =
                         profile.html_url;
 
@@ -800,6 +907,20 @@ document.addEventListener(
                     bio.textContent =
                         profile.bio ||
                         "Developer building projects and learning new technologies.";
+
+                }
+
+
+                const profileLink =
+                    document.getElementById(
+                        "githubProfileLink"
+                    );
+
+
+                if (profileLink) {
+
+                    profileLink.href =
+                        profile.html_url;
 
                 }
 
@@ -838,6 +959,7 @@ document.addEventListener(
             } catch (error) {
 
                 console.error(
+                    "GitHub profile failed:",
                     error
                 );
 
@@ -846,9 +968,9 @@ document.addEventListener(
         }
 
 
-        /* =========================================
-           ACTIVITY
-        ========================================= */
+        // =================================================
+        // GITHUB ACTIVITY
+        // =================================================
 
         async function loadGitHubActivity() {
 
@@ -889,11 +1011,29 @@ document.addEventListener(
 
 
                 const events =
-                    result.data
+                    Array.isArray(
+                        result.data
+                    )
+                        ? result.data
+                        : [];
+
+
+                const supported =
+                    events
                         .filter(
-                            (event) =>
-                                event.type ===
-                                "PushEvent"
+                            (event) => {
+
+                                return [
+                                    "PushEvent",
+                                    "CreateEvent",
+                                    "WatchEvent",
+                                    "ForkEvent",
+                                    "PullRequestEvent"
+                                ].includes(
+                                    event.type
+                                );
+
+                            }
                         )
                         .slice(
                             0,
@@ -901,75 +1041,295 @@ document.addEventListener(
                         );
 
 
+                if (
+                    supported.length ===
+                    0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="activity-loading">
+
+                            No recent supported public activity.
+
+                        </div>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
                 container.innerHTML =
-                    events.map(
-                        (event) => {
-
-                            const repo =
-                                event.repo?.name ||
-                                "repository";
-
-
-                            return `
-
-                                <a
-                                    class="activity-item"
-                                    href="https://github.com/${escapeHTML(repo)}"
-                                    target="_blank"
-                                >
-
-                                    <div class="activity-type">
-                                        PUSH
-                                    </div>
-
-
-                                    <div>
-
-                                        <div class="activity-title">
-                                            Pushed updates
-                                        </div>
-
-                                        <div class="activity-detail">
-                                            ${escapeHTML(repo)}
-                                            •
-                                            ${escapeHTML(
-                                                event.payload?.ref?.replace(
-                                                    "refs/heads/",
-                                                    ""
-                                                ) ||
-                                                "main"
-                                            )}
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="activity-time">
-                                        ${relativeTime(
-                                            event.created_at
-                                        )}
-                                    </div>
-
-                                </a>
-
-                            `;
-
-                        }
-                    ).join("");
+                    supported
+                        .map(
+                            createActivityItem
+                        )
+                        .join("");
 
             } catch (error) {
 
-                container.innerHTML =
-                    "GitHub activity unavailable.";
+                console.error(
+                    "Activity failed:",
+                    error
+                );
+
+
+                container.innerHTML = `
+
+                    <div class="activity-loading">
+
+                        GitHub activity is temporarily unavailable.
+
+                    </div>
+
+                `;
 
             }
 
         }
 
 
-        /* =========================================
-           PROJECTS
-        ========================================= */
+        function createActivityItem(
+            event
+        ) {
+
+            const repo =
+                event.repo?.name ||
+                "repository";
+
+
+            let type =
+                "EVENT";
+
+
+            let title =
+                "GitHub activity";
+
+
+            let detail =
+                repo;
+
+
+            if (
+                event.type ===
+                "PushEvent"
+            ) {
+
+                type =
+                    "PUSH";
+
+
+                const payload =
+                    event.payload ||
+                    {};
+
+
+                const commits =
+                    Array.isArray(
+                        payload.commits
+                    )
+                        ? payload.commits
+                        : [];
+
+
+                let count =
+                    null;
+
+
+                if (
+                    Number.isFinite(
+                        payload.size
+                    ) &&
+                    payload.size > 0
+                ) {
+
+                    count =
+                        payload.size;
+
+                } else if (
+                    Number.isFinite(
+                        payload.distinct_size
+                    ) &&
+                    payload.distinct_size > 0
+                ) {
+
+                    count =
+                        payload.distinct_size;
+
+                } else if (
+                    commits.length > 0
+                ) {
+
+                    count =
+                        commits.length;
+
+                }
+
+
+                title =
+                    count
+                        ? `Pushed ${count} commit${count === 1 ? "" : "s"}`
+                        : "Pushed updates";
+
+
+                const branch =
+                    payload.ref
+                        ?.replace(
+                            "refs/heads/",
+                            ""
+                        ) ||
+                    "main";
+
+
+                detail =
+                    `${repo} • ${branch}`;
+
+            }
+
+
+            if (
+                event.type ===
+                "CreateEvent"
+            ) {
+
+                type =
+                    "CREATE";
+
+
+                title =
+                    `Created ${event.payload?.ref_type || "repository"}`;
+
+
+                detail =
+                    repo;
+
+            }
+
+
+            if (
+                event.type ===
+                "WatchEvent"
+            ) {
+
+                type =
+                    "STAR";
+
+
+                title =
+                    "Starred repository";
+
+
+                detail =
+                    repo;
+
+            }
+
+
+            if (
+                event.type ===
+                "ForkEvent"
+            ) {
+
+                type =
+                    "FORK";
+
+
+                title =
+                    "Forked repository";
+
+
+                detail =
+                    repo;
+
+            }
+
+
+            if (
+                event.type ===
+                "PullRequestEvent"
+            ) {
+
+                type =
+                    "PULL";
+
+
+                title =
+                    `${
+                        capitalize(
+                            event.payload?.action ||
+                            "Updated"
+                        )
+                    } pull request`;
+
+
+                detail =
+                    repo;
+
+            }
+
+
+            const repoURL =
+                repo.includes("/")
+                    ? `https://github.com/${repo}`
+                    : `https://github.com/${GITHUB_USERNAME}`;
+
+
+            return `
+
+                <a
+                    class="activity-item"
+                    href="${escapeAttribute(repoURL)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+
+                    <div class="activity-type">
+
+                        ${escapeHTML(type)}
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="activity-title">
+
+                            ${escapeHTML(title)}
+
+                        </div>
+
+                        <div class="activity-detail">
+
+                            ${escapeHTML(detail)}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity-time">
+
+                        ${escapeHTML(
+                            relativeTime(
+                                event.created_at
+                            )
+                        )}
+
+                    </div>
+
+                </a>
+
+            `;
+
+        }
+
+
+        // =================================================
+        // PROJECTS
+        // =================================================
 
         async function loadGitHubProjects() {
 
@@ -988,7 +1348,7 @@ document.addEventListener(
 
                 const result =
                     await fetchGitHubCached(
-                        `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&type=owner`,
+                        `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&direction=desc&per_page=100&type=owner`,
                         `github-repos-${GITHUB_USERNAME}`
                     );
 
@@ -1006,134 +1366,169 @@ document.addEventListener(
 
 
                 container.innerHTML =
-                    repos.map(
-                        (
-                            repo,
-                            index
-                        ) => {
+                    repos
+                        .map(
+                            (
+                                repo,
+                                index
+                            ) => {
 
-                            const number =
-                                String(
-                                    index + 1
-                                ).padStart(
-                                    2,
-                                    "0"
-                                );
+                                const number =
+                                    String(
+                                        index +
+                                        1
+                                    )
+                                    .padStart(
+                                        2,
+                                        "0"
+                                    );
 
 
-                            return `
+                                const homepage =
+                                    repo.homepage &&
+                                    repo.homepage.trim()
+                                        ? repo.homepage
+                                        : null;
 
-                                <article class="project-card reveal">
 
-                                    <div class="project-image">
+                                return `
 
-                                        <div class="project-screen">
+                                    <article class="project-card reveal">
 
-                                            <span class="screen-small">
-                                                GITHUB REPOSITORY
-                                            </span>
+                                        <div class="project-image">
 
-                                            <strong>
-                                                ${escapeHTML(repo.name)}
-                                            </strong>
+                                            <div class="project-screen">
 
-                                            <span class="screen-blue">
-                                                ${number}
-                                            </span>
+                                                <span class="screen-small">
+
+                                                    GITHUB REPOSITORY
+
+                                                </span>
+
+                                                <strong>
+
+                                                    ${escapeHTML(
+                                                        repo.name
+                                                    )}
+
+                                                </strong>
+
+                                                <span class="screen-blue">
+
+                                                    ${number}
+
+                                                </span>
+
+                                            </div>
 
                                         </div>
 
-                                    </div>
+
+                                        <div class="project-content">
+
+                                            <div class="project-top">
+
+                                                <span class="project-type">
+
+                                                    GITHUB PROJECT
+
+                                                </span>
+
+                                                <span>
+
+                                                    ${number}
+
+                                                </span>
+
+                                            </div>
 
 
-                                    <div class="project-content">
+                                            <h3>
 
-                                        <div class="project-top">
-
-                                            <span class="project-type">
-                                                GITHUB PROJECT
-                                            </span>
-
-                                            <span>
-                                                ${number}
-                                            </span>
-
-                                        </div>
-
-
-                                        <h3>
-                                            ${escapeHTML(
-                                                formatName(
-                                                    repo.name
-                                                )
-                                            )}
-                                        </h3>
-
-
-                                        <p>
-
-                                            ${escapeHTML(
-                                                repo.description ||
-                                                "A project from my GitHub portfolio."
-                                            )}
-
-                                        </p>
-
-
-                                        <div class="project-tech">
-
-                                            <span>
                                                 ${escapeHTML(
-                                                    repo.language ||
-                                                    "Code"
+                                                    formatName(
+                                                        repo.name
+                                                    )
                                                 )}
-                                            </span>
 
-                                            <span>
-                                                ★ ${repo.stargazers_count}
-                                            </span>
+                                            </h3>
 
-                                            <span>
-                                                Forks ${repo.forks_count}
-                                            </span>
+
+                                            <p>
+
+                                                ${escapeHTML(
+                                                    repo.description ||
+                                                    "A project from my GitHub portfolio."
+                                                )}
+
+                                            </p>
+
+
+                                            <div class="project-tech">
+
+                                                <span>
+
+                                                    ${escapeHTML(
+                                                        repo.language ||
+                                                        "Code"
+                                                    )}
+
+                                                </span>
+
+                                                <span>
+
+                                                    ★ ${repo.stargazers_count}
+
+                                                </span>
+
+                                                <span>
+
+                                                    Forks ${repo.forks_count}
+
+                                                </span>
+
+                                            </div>
+
+
+                                            <div class="project-links">
+
+                                                <a
+                                                    class="project-link"
+                                                    href="${escapeAttribute(repo.html_url)}"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    View Code ↗
+                                                </a>
+
+                                                ${
+                                                    homepage
+                                                        ? `
+
+                                                            <a
+                                                                class="project-link"
+                                                                href="${escapeAttribute(homepage)}"
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                Live Website ↗
+                                                            </a>
+
+                                                        `
+                                                        : ""
+                                                }
+
+                                            </div>
 
                                         </div>
 
+                                    </article>
 
-                                        <div class="project-links">
+                                `;
 
-                                            <a
-                                                class="project-link"
-                                                href="${repo.html_url}"
-                                                target="_blank"
-                                            >
-                                                View Code ↗
-                                            </a>
-
-                                            ${
-                                                repo.homepage
-                                                    ? `
-                                                        <a
-                                                            class="project-link"
-                                                            href="${repo.homepage}"
-                                                            target="_blank"
-                                                        >
-                                                            Live Website ↗
-                                                        </a>
-                                                    `
-                                                    : ""
-                                            }
-
-                                        </div>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    ).join("");
+                            }
+                        )
+                        .join("");
 
 
                 observeRevealElements();
@@ -1141,17 +1536,403 @@ document.addEventListener(
             } catch (error) {
 
                 console.error(
+                    "Projects failed:",
                     error
                 );
+
+
+                container.innerHTML = `
+
+                    <article class="project-card">
+
+                        <div class="project-content">
+
+                            <h3>
+                                GitHub unavailable
+                            </h3>
+
+                            <p>
+
+                                Projects could not be loaded right now.
+
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                `;
 
             }
 
         }
 
 
-        /* =========================================
-           HELPERS
-        ========================================= */
+        // =================================================
+        // CONTACT FORM
+        // =================================================
+
+        const contactForm =
+            document.getElementById(
+                "contactForm"
+            );
+
+
+        const contactSubmit =
+            document.getElementById(
+                "contactSubmit"
+            );
+
+
+        const contactSubmitText =
+            document.getElementById(
+                "contactSubmitText"
+            );
+
+
+        const formResponse =
+            document.getElementById(
+                "formResponse"
+            );
+
+
+        const messageField =
+            document.getElementById(
+                "contactMessage"
+            );
+
+
+        const messageCounter =
+            document.getElementById(
+                "messageCharacterCount"
+            );
+
+
+        const startedAt =
+            document.getElementById(
+                "formStartedAt"
+            );
+
+
+        function resetFormTimer() {
+
+            if (startedAt) {
+
+                startedAt.value =
+                    Date.now().toString();
+
+            }
+
+        }
+
+
+        resetFormTimer();
+
+
+        if (
+            messageField &&
+            messageCounter
+        ) {
+
+            messageField.addEventListener(
+                "input",
+                () => {
+
+                    messageCounter.textContent =
+                        messageField.value.length;
+
+                }
+            );
+
+        }
+
+
+        function setFormResponse(
+            type,
+            message
+        ) {
+
+            if (!formResponse) {
+                return;
+            }
+
+
+            formResponse.className =
+                `form-response visible ${type}`;
+
+
+            formResponse.textContent =
+                message;
+
+        }
+
+
+        function clearFormResponse() {
+
+            if (!formResponse) {
+                return;
+            }
+
+
+            formResponse.className =
+                "form-response";
+
+
+            formResponse.textContent =
+                "";
+
+        }
+
+
+        function setSubmitting(
+            submitting
+        ) {
+
+            if (contactSubmit) {
+
+                contactSubmit.disabled =
+                    submitting;
+
+
+                contactSubmit.classList.toggle(
+                    "sending",
+                    submitting
+                );
+
+            }
+
+
+            if (contactSubmitText) {
+
+                contactSubmitText.textContent =
+                    submitting
+                        ? "Sending..."
+                        : "Send Message";
+
+            }
+
+        }
+
+
+        if (contactForm) {
+
+            contactForm.addEventListener(
+                "submit",
+                async (
+                    event
+                ) => {
+
+                    event.preventDefault();
+
+
+                    clearFormResponse();
+
+
+                    if (
+                        !contactForm.checkValidity()
+                    ) {
+
+                        contactForm.reportValidity();
+
+
+                        return;
+
+                    }
+
+
+                    const formData =
+                        new FormData(
+                            contactForm
+                        );
+
+
+                    const payload = {
+
+                        name:
+                            String(
+                                formData.get(
+                                    "name"
+                                ) ||
+                                ""
+                            ).trim(),
+
+                        email:
+                            String(
+                                formData.get(
+                                    "email"
+                                ) ||
+                                ""
+                            ).trim(),
+
+                        subject:
+                            String(
+                                formData.get(
+                                    "subject"
+                                ) ||
+                                ""
+                            ).trim(),
+
+                        message:
+                            String(
+                                formData.get(
+                                    "message"
+                                ) ||
+                                ""
+                            ).trim(),
+
+                        company:
+                            String(
+                                formData.get(
+                                    "company"
+                                ) ||
+                                ""
+                            ).trim(),
+
+                        startedAt:
+                            Number(
+                                formData.get(
+                                    "startedAt"
+                                )
+                            )
+
+                    };
+
+
+                    setSubmitting(
+                        true
+                    );
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/api/contact",
+                                {
+
+                                    method:
+                                        "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            payload
+                                        )
+
+                                }
+                            );
+
+
+                        let result = {};
+
+
+                        try {
+
+                            result =
+                                await response.json();
+
+                        } catch {}
+
+
+                        if (
+                            !response.ok
+                        ) {
+
+                            throw new Error(
+                                result.message ||
+                                "Message could not be sent."
+                            );
+
+                        }
+
+
+                        setFormResponse(
+
+                            "success",
+
+                            "✓ Message sent successfully. Thanks for reaching out!"
+
+                        );
+
+
+                        contactForm.reset();
+
+
+                        if (
+                            messageCounter
+                        ) {
+
+                            messageCounter.textContent =
+                                "0";
+
+                        }
+
+
+                        resetFormTimer();
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Contact form error:",
+                            error
+                        );
+
+
+                        setFormResponse(
+
+                            "error",
+
+                            error.message ||
+                            "Something went wrong. Please try again."
+
+                        );
+
+                    } finally {
+
+                        setSubmitting(
+                            false
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // =================================================
+        // BACK TO TOP
+        // =================================================
+
+        backTop?.addEventListener(
+            "click",
+            () => {
+
+                window.scrollTo({
+
+                    top:
+                        0,
+
+                    behavior:
+                        "smooth"
+
+                });
+
+            }
+        );
+
+
+        // =================================================
+        // HELPERS
+        // =================================================
 
         function escapeHTML(
             value
@@ -1187,11 +1968,22 @@ document.addEventListener(
         }
 
 
+        function escapeAttribute(
+            value
+        ) {
+
+            return escapeHTML(
+                value
+            );
+
+        }
+
+
         function formatName(
             name
         ) {
 
-            return name
+            return String(name)
 
                 .replace(
                     /[-_]+/g,
@@ -1207,29 +1999,53 @@ document.addEventListener(
         }
 
 
+        function capitalize(
+            value
+        ) {
+
+            const text =
+                String(
+                    value ||
+                    ""
+                );
+
+
+            return text
+                ? text
+                    .charAt(0)
+                    .toUpperCase() +
+                    text.slice(1)
+                : "";
+
+        }
+
+
         function relativeTime(
             date
         ) {
 
             const seconds =
-                Math.floor(
-                    (
-                        Date.now() -
-                        new Date(
-                            date
-                        )
-                    ) /
-                    1000
+                Math.max(
+                    0,
+                    Math.floor(
+                        (
+                            Date.now() -
+                            new Date(
+                                date
+                            ).getTime()
+                        ) /
+                        1000
+                    )
                 );
 
 
-            if (
-                seconds <
-                60
-            ) {
+            if (seconds < 10) {
+                return "just now";
+            }
 
+
+            if (seconds < 60) {
                 return `${seconds}s ago`;
-
             }
 
 
@@ -1240,13 +2056,8 @@ document.addEventListener(
                 );
 
 
-            if (
-                minutes <
-                60
-            ) {
-
+            if (minutes < 60) {
                 return `${minutes}m ago`;
-
             }
 
 
@@ -1257,47 +2068,32 @@ document.addEventListener(
                 );
 
 
-            if (
-                hours <
-                24
-            ) {
-
+            if (hours < 24) {
                 return `${hours}h ago`;
-
             }
 
 
-            return `${Math.floor(
-                hours /
-                24
-            )}d ago`;
+            const days =
+                Math.floor(
+                    hours /
+                    24
+                );
+
+
+            return `${days}d ago`;
 
         }
 
 
-        /* =========================================
-           START
-        ========================================= */
+        // =================================================
+        // START
+        // =================================================
 
         loadGitHubProfile();
 
         loadGitHubActivity();
 
         loadGitHubProjects();
-
-
-        backTop?.addEventListener(
-            "click",
-            () => {
-
-                window.scrollTo({
-                    top: 0,
-                    behavior:
-                        "smooth"
-                });
-
-            }
-        );
 
     }
 );
