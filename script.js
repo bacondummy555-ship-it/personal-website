@@ -8,6 +8,12 @@ const GITHUB_USERNAME =
 const GITHUB_REPOSITORY_LIMIT =
     6;
 
+const GITHUB_ACTIVITY_LIMIT =
+    6;
+
+const GITHUB_CACHE_DURATION =
+    5 * 60 * 1000;
+
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -59,6 +65,7 @@ document.addEventListener(
                 return;
             }
 
+
             if (window.scrollY > 20) {
 
                 header.classList.add(
@@ -81,6 +88,7 @@ document.addEventListener(
             updateHeader
         );
 
+
         updateHeader();
 
 
@@ -100,6 +108,7 @@ document.addEventListener(
                     navLinks.classList.toggle(
                         "open"
                     );
+
 
                     document.body.classList.toggle(
                         "menu-open"
@@ -126,6 +135,7 @@ document.addEventListener(
 
                         }
 
+
                         document.body.classList.remove(
                             "menu-open"
                         );
@@ -150,8 +160,10 @@ document.addEventListener(
                     cursorGlow.style.left =
                         `${event.clientX}px`;
 
+
                     cursorGlow.style.top =
                         `${event.clientY}px`;
+
 
                     cursorGlow.style.opacity =
                         "1";
@@ -225,10 +237,12 @@ document.addEventListener(
 
                     deleting = true;
 
+
                     setTimeout(
                         typeWriter,
                         1600
                     );
+
 
                     return;
 
@@ -240,7 +254,9 @@ document.addEventListener(
                     70
                 );
 
+
             } else {
+
 
                 typingText.textContent =
                     currentWord.substring(
@@ -271,6 +287,7 @@ document.addEventListener(
                         typeWriter,
                         350
                     );
+
 
                     return;
 
@@ -309,6 +326,7 @@ document.addEventListener(
                                 entry.target.classList.add(
                                     "visible"
                                 );
+
 
                                 revealObserver.unobserve(
                                     entry.target
@@ -420,6 +438,7 @@ document.addEventListener(
             "scroll",
             updateNavigation
         );
+
 
         updateNavigation();
 
@@ -593,6 +612,124 @@ document.addEventListener(
 
 
         // =========================================
+        // GITHUB CACHE
+        // =========================================
+
+        async function fetchGitHubCached(
+            url,
+            cacheKey
+        ) {
+
+            try {
+
+                const saved =
+                    localStorage.getItem(
+                        cacheKey
+                    );
+
+
+                if (saved) {
+
+                    const parsed =
+                        JSON.parse(
+                            saved
+                        );
+
+
+                    const age =
+                        Date.now() -
+                        parsed.timestamp;
+
+
+                    if (
+                        age <
+                        GITHUB_CACHE_DURATION
+                    ) {
+
+                        return {
+                            data:
+                                parsed.data,
+
+                            cached:
+                                true,
+
+                            timestamp:
+                                parsed.timestamp
+                        };
+
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "GitHub cache read failed:",
+                    error
+                );
+
+            }
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        headers: {
+                            Accept:
+                                "application/vnd.github+json"
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `GitHub API returned ${response.status}`
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const timestamp =
+                Date.now();
+
+
+            try {
+
+                localStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({
+                        timestamp,
+                        data
+                    })
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "GitHub cache save failed:",
+                    error
+                );
+
+            }
+
+
+            return {
+                data,
+                cached: false,
+                timestamp
+            };
+
+        }
+
+
+        // =========================================
         // GITHUB PROFILE
         // =========================================
 
@@ -646,29 +783,22 @@ document.addEventListener(
 
             try {
 
-                const response =
-                    await fetch(
-                        `https://api.github.com/users/${GITHUB_USERNAME}`
+                const result =
+                    await fetchGitHubCached(
+                        `https://api.github.com/users/${GITHUB_USERNAME}`,
+                        `github-profile-${GITHUB_USERNAME}`
                     );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        `GitHub profile request failed: ${response.status}`
-                    );
-
-                }
 
 
                 const profile =
-                    await response.json();
+                    result.data;
 
 
                 if (avatar) {
 
                     avatar.src =
                         profile.avatar_url;
+
 
                     avatar.alt =
                         `${profile.login} GitHub profile picture`;
@@ -689,6 +819,7 @@ document.addEventListener(
 
                     username.textContent =
                         `@${profile.login}`;
+
 
                     username.href =
                         profile.html_url;
@@ -758,6 +889,472 @@ document.addEventListener(
 
 
         // =========================================
+        // GITHUB ACTIVITY
+        // =========================================
+
+        async function loadGitHubActivity() {
+
+            const container =
+                document.getElementById(
+                    "githubActivity"
+                );
+
+
+            const syncTime =
+                document.getElementById(
+                    "activitySyncTime"
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            try {
+
+                const result =
+                    await fetchGitHubCached(
+                        `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=30`,
+                        `github-events-${GITHUB_USERNAME}`
+                    );
+
+
+                const events =
+                    Array.isArray(
+                        result.data
+                    )
+                        ? result.data
+                        : [];
+
+
+                const usefulEvents =
+                    events
+                        .filter(
+                            isSupportedGitHubEvent
+                        )
+                        .slice(
+                            0,
+                            GITHUB_ACTIVITY_LIMIT
+                        );
+
+
+                if (syncTime) {
+
+                    syncTime.textContent =
+                        result.cached
+                            ? `Cached • ${relativeTime(result.timestamp)}`
+                            : "Synced just now";
+
+                }
+
+
+                if (
+                    usefulEvents.length ===
+                    0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="activity-empty">
+
+                            No recent supported public activity found.
+                            New public GitHub activity will appear here automatically.
+
+                        </div>
+
+                    `;
+
+
+                    return;
+
+                }
+
+
+                container.innerHTML =
+                    usefulEvents
+                        .map(
+                            createActivityItem
+                        )
+                        .join("");
+
+
+            } catch (error) {
+
+                console.error(
+                    "GitHub activity loading failed:",
+                    error
+                );
+
+
+                if (syncTime) {
+
+                    syncTime.textContent =
+                        "Connection unavailable";
+
+                }
+
+
+                container.innerHTML = `
+
+                    <div class="activity-error">
+
+                        GitHub activity could not be loaded right now.
+                        Your profile and projects may still be available.
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        function isSupportedGitHubEvent(
+            event
+        ) {
+
+            const supported = [
+
+                "PushEvent",
+                "CreateEvent",
+                "WatchEvent",
+                "ForkEvent",
+                "PullRequestEvent",
+                "IssuesEvent",
+                "ReleaseEvent",
+                "DeleteEvent"
+
+            ];
+
+
+            return supported.includes(
+                event.type
+            );
+
+        }
+
+
+        function createActivityItem(
+            event
+        ) {
+
+            const details =
+                getActivityDetails(
+                    event
+                );
+
+
+            const repoName =
+                event.repo?.name ||
+                "GitHub";
+
+
+            const repoURL =
+                `https://github.com/${repoName}`;
+
+
+            return `
+
+                <a
+                    href="${escapeAttribute(repoURL)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="activity-item"
+                >
+
+                    <div class="activity-type">
+                        ${escapeHTML(details.type)}
+                    </div>
+
+
+                    <div class="activity-content">
+
+                        <div class="activity-title">
+                            ${escapeHTML(details.title)}
+                        </div>
+
+
+                        <div class="activity-detail">
+                            ${escapeHTML(details.detail)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="activity-time">
+                        ${escapeHTML(
+                            relativeTime(
+                                event.created_at
+                            )
+                        )}
+                    </div>
+
+                </a>
+
+            `;
+
+        }
+
+
+        function getActivityDetails(
+            event
+        ) {
+
+            const repo =
+                event.repo?.name ||
+                "repository";
+
+
+            switch (
+                event.type
+            ) {
+
+                case "PushEvent": {
+
+                    const commitCount =
+                        event.payload?.size ??
+                        event.payload?.commits?.length ??
+                        0;
+
+
+                    const branch =
+                        event.payload?.ref
+                            ? event.payload.ref.replace(
+                                "refs/heads/",
+                                ""
+                            )
+                            : "branch";
+
+
+                    const firstCommit =
+                        event.payload?.commits?.[0]?.message;
+
+
+                    return {
+
+                        type:
+                            "PUSH",
+
+                        title:
+                            `Pushed ${commitCount} commit${commitCount === 1 ? "" : "s"}`,
+
+                        detail:
+                            firstCommit
+                                ? `${repo} • ${branch} • ${firstLine(firstCommit)}`
+                                : `${repo} • ${branch}`
+
+                    };
+
+                }
+
+
+                case "CreateEvent": {
+
+                    const refType =
+                        event.payload?.ref_type ||
+                        "repository";
+
+
+                    const ref =
+                        event.payload?.ref;
+
+
+                    return {
+
+                        type:
+                            "CREATE",
+
+                        title:
+                            `Created ${refType}`,
+
+                        detail:
+                            ref
+                                ? `${repo} • ${ref}`
+                                : repo
+
+                    };
+
+                }
+
+
+                case "WatchEvent":
+
+                    return {
+
+                        type:
+                            "STAR",
+
+                        title:
+                            "Starred a repository",
+
+                        detail:
+                            repo
+
+                    };
+
+
+                case "ForkEvent": {
+
+                    const forkName =
+                        event.payload?.forkee?.full_name;
+
+
+                    return {
+
+                        type:
+                            "FORK",
+
+                        title:
+                            "Forked a repository",
+
+                        detail:
+                            forkName ||
+                            repo
+
+                    };
+
+                }
+
+
+                case "PullRequestEvent": {
+
+                    const action =
+                        event.payload?.action ||
+                        "updated";
+
+
+                    const number =
+                        event.payload?.number;
+
+
+                    return {
+
+                        type:
+                            "PULL",
+
+                        title:
+                            `${capitalize(action)} pull request`,
+
+                        detail:
+                            number
+                                ? `${repo} • #${number}`
+                                : repo
+
+                    };
+
+                }
+
+
+                case "IssuesEvent": {
+
+                    const action =
+                        event.payload?.action ||
+                        "updated";
+
+
+                    const number =
+                        event.payload?.issue?.number;
+
+
+                    return {
+
+                        type:
+                            "ISSUE",
+
+                        title:
+                            `${capitalize(action)} issue`,
+
+                        detail:
+                            number
+                                ? `${repo} • #${number}`
+                                : repo
+
+                    };
+
+                }
+
+
+                case "ReleaseEvent": {
+
+                    const action =
+                        event.payload?.action ||
+                        "published";
+
+
+                    const tag =
+                        event.payload?.release?.tag_name;
+
+
+                    return {
+
+                        type:
+                            "RELEASE",
+
+                        title:
+                            `${capitalize(action)} release`,
+
+                        detail:
+                            tag
+                                ? `${repo} • ${tag}`
+                                : repo
+
+                    };
+
+                }
+
+
+                case "DeleteEvent": {
+
+                    const refType =
+                        event.payload?.ref_type ||
+                        "ref";
+
+
+                    const ref =
+                        event.payload?.ref;
+
+
+                    return {
+
+                        type:
+                            "DELETE",
+
+                        title:
+                            `Deleted ${refType}`,
+
+                        detail:
+                            ref
+                                ? `${repo} • ${ref}`
+                                : repo
+
+                    };
+
+                }
+
+
+                default:
+
+                    return {
+
+                        type:
+                            "EVENT",
+
+                        title:
+                            "GitHub activity",
+
+                        detail:
+                            repo
+
+                    };
+
+            }
+
+        }
+
+
+        // =========================================
         // GITHUB PROJECTS
         // =========================================
 
@@ -784,23 +1381,15 @@ document.addEventListener(
                     `&type=owner`;
 
 
-                const response =
-                    await fetch(
-                        apiURL
+                const result =
+                    await fetchGitHubCached(
+                        apiURL,
+                        `github-repos-${GITHUB_USERNAME}`
                     );
-
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        `GitHub API returned ${response.status}`
-                    );
-
-                }
 
 
                 const repositories =
-                    await response.json();
+                    result.data;
 
 
                 const originalRepositories =
@@ -826,6 +1415,7 @@ document.addEventListener(
                         projectsContainer
                     );
 
+
                     return;
 
                 }
@@ -847,6 +1437,7 @@ document.addEventListener(
 
 
                 observeRevealElements();
+
 
                 setupCardMouseEffects();
 
@@ -1131,6 +1722,160 @@ document.addEventListener(
         }
 
 
+        function relativeTime(
+            dateValue
+        ) {
+
+            const date =
+                new Date(
+                    dateValue
+                );
+
+
+            const difference =
+                Date.now() -
+                date.getTime();
+
+
+            if (
+                Number.isNaN(
+                    difference
+                )
+            ) {
+
+                return "recently";
+
+            }
+
+
+            const seconds =
+                Math.max(
+                    0,
+                    Math.floor(
+                        difference /
+                        1000
+                    )
+                );
+
+
+            if (seconds < 10) {
+                return "just now";
+            }
+
+
+            if (seconds < 60) {
+
+                return `${seconds}s ago`;
+
+            }
+
+
+            const minutes =
+                Math.floor(
+                    seconds /
+                    60
+                );
+
+
+            if (minutes < 60) {
+
+                return `${minutes}m ago`;
+
+            }
+
+
+            const hours =
+                Math.floor(
+                    minutes /
+                    60
+                );
+
+
+            if (hours < 24) {
+
+                return `${hours}h ago`;
+
+            }
+
+
+            const days =
+                Math.floor(
+                    hours /
+                    24
+                );
+
+
+            if (days < 30) {
+
+                return `${days}d ago`;
+
+            }
+
+
+            const months =
+                Math.floor(
+                    days /
+                    30
+                );
+
+
+            if (months < 12) {
+
+                return `${months}mo ago`;
+
+            }
+
+
+            const years =
+                Math.floor(
+                    months /
+                    12
+                );
+
+
+            return `${years}y ago`;
+
+        }
+
+
+        function capitalize(
+            value
+        ) {
+
+            const text =
+                String(
+                    value || ""
+                );
+
+
+            if (!text) {
+                return "";
+            }
+
+
+            return (
+                text.charAt(0).toUpperCase() +
+                text.slice(1)
+            );
+
+        }
+
+
+        function firstLine(
+            value
+        ) {
+
+            return String(
+                value
+            )
+                .split(
+                    "\n"
+                )[0]
+                .trim();
+
+        }
+
+
         function escapeHTML(
             value
         ) {
@@ -1388,7 +2133,12 @@ document.addEventListener(
 
         setupCardMouseEffects();
 
+
         loadGitHubProfile();
+
+
+        loadGitHubActivity();
+
 
         loadGitHubProjects();
 
