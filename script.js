@@ -3,15 +3,37 @@
 // =========================================
 
 
+// =========================================
+// GITHUB SETTINGS
+// =========================================
+
+const GITHUB_USERNAME = "bacondummy555-ship-it";
+
+const GITHUB_REPOSITORY_LIMIT = 6;
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const header = document.querySelector(".header");
-    const menuButton = document.getElementById("menuButton");
-    const navLinks = document.getElementById("navLinks");
-    const navItems = document.querySelectorAll(".nav-link");
-    const cursorGlow = document.getElementById("cursorGlow");
-    const typingText = document.getElementById("typingText");
-    const backTop = document.getElementById("backTop");
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+    const navLinks =
+        document.getElementById("navLinks");
+
+    const navItems =
+        document.querySelectorAll(".nav-link");
+
+    const cursorGlow =
+        document.getElementById("cursorGlow");
+
+    const typingText =
+        document.getElementById("typingText");
+
+    const backTop =
+        document.getElementById("backTop");
 
 
 
@@ -22,9 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateHeader() {
 
         if (window.scrollY > 20) {
-            header.classList.add("scrolled");
+
+            header.classList.add(
+                "scrolled"
+            );
+
         } else {
-            header.classList.remove("scrolled");
+
+            header.classList.remove(
+                "scrolled"
+            );
+
         }
 
     }
@@ -44,18 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // MOBILE MENU
     // =========================================
 
-    menuButton.addEventListener(
-        "click",
-        () => {
+    if (menuButton && navLinks) {
 
-            navLinks.classList.toggle("open");
+        menuButton.addEventListener(
+            "click",
+            () => {
 
-            document.body.classList.toggle(
-                "menu-open"
-            );
+                navLinks.classList.toggle(
+                    "open"
+                );
 
-        }
-    );
+                document.body.classList.toggle(
+                    "menu-open"
+                );
+
+            }
+        );
+
+    }
 
 
     navItems.forEach((item) => {
@@ -132,11 +168,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     let wordIndex = 0;
+
     let characterIndex = 0;
+
     let deleting = false;
 
 
+
     function typeWriter() {
+
+        if (!typingText) {
+            return;
+        }
+
 
         const currentWord =
             words[wordIndex];
@@ -176,7 +220,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 70
             );
 
+
         } else {
+
 
             typingText.textContent =
                 currentWord.substring(
@@ -188,11 +234,10 @@ document.addEventListener("DOMContentLoaded", () => {
             characterIndex--;
 
 
-            if (
-                characterIndex === 0
-            ) {
+            if (characterIndex === 0) {
 
                 deleting = false;
+
 
                 wordIndex =
                     (
@@ -205,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     typeWriter,
                     350
                 );
+
 
                 return;
 
@@ -228,12 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
     // REVEAL ON SCROLL
     // =========================================
-
-    const revealElements =
-        document.querySelectorAll(
-            ".reveal"
-        );
-
 
     const revealObserver =
         new IntersectionObserver(
@@ -269,15 +309,29 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    revealElements.forEach(
-        (element) => {
 
-            revealObserver.observe(
-                element
+    function observeRevealElements() {
+
+        const revealElements =
+            document.querySelectorAll(
+                ".reveal:not(.visible)"
             );
 
-        }
-    );
+
+        revealElements.forEach(
+            (element) => {
+
+                revealObserver.observe(
+                    element
+                );
+
+            }
+        );
+
+    }
+
+
+    observeRevealElements();
 
 
 
@@ -327,7 +381,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 if (
-                    item.getAttribute("href") ===
+                    item.getAttribute(
+                        "href"
+                    ) ===
                     `#${currentSection}`
                 ) {
 
@@ -349,9 +405,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
+    updateNavigation();
+
+
 
     // =========================================
-    // ANIMATED STATS
+    // ANIMATED NORMAL STATS
     // =========================================
 
     const statNumbers =
@@ -376,6 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 entry.target
                             );
 
+
                             statsObserver.unobserve(
                                 entry.target
                             );
@@ -397,12 +457,20 @@ document.addEventListener("DOMContentLoaded", () => {
     statNumbers.forEach(
         (number) => {
 
-            statsObserver.observe(
-                number
-            );
+            if (
+                number.id !==
+                "githubRepoCount"
+            ) {
+
+                statsObserver.observe(
+                    number
+                );
+
+            }
 
         }
     );
+
 
 
     function animateCounter(element) {
@@ -413,12 +481,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-        const duration =
-            1200;
+        const duration = 1200;
 
 
         const startTime =
             performance.now();
+
 
 
         function updateCounter(
@@ -453,9 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-            if (
-                progress < 1
-            ) {
+            if (progress < 1) {
 
                 requestAnimationFrame(
                     updateCounter
@@ -483,79 +549,706 @@ document.addEventListener("DOMContentLoaded", () => {
     // BACK TO TOP
     // =========================================
 
-    backTop.addEventListener(
-        "click",
-        () => {
+    if (backTop) {
 
-            window.scrollTo({
+        backTop.addEventListener(
+            "click",
+            () => {
 
-                top: 0,
+                window.scrollTo({
 
-                behavior:
-                    "smooth"
+                    top: 0,
 
-            });
+                    behavior:
+                        "smooth"
 
-        }
-    );
+                });
 
-
-
-    // =========================================
-    // PROJECT CARD MOUSE EFFECT
-    // =========================================
-
-    const cards =
-        document.querySelectorAll(
-            ".project-card, .skill-card"
+            }
         );
 
-
-    cards.forEach(
-        (card) => {
-
-            card.addEventListener(
-                "mousemove",
-                (event) => {
-
-                    const rect =
-                        card.getBoundingClientRect();
+    }
 
 
-                    const x =
-                        event.clientX -
-                        rect.left;
 
+    // =========================================
+    // GITHUB PROJECTS
+    // =========================================
 
-                    const y =
-                        event.clientY -
-                        rect.top;
+    async function loadGitHubProjects() {
 
-
-                    card.style.background =
-                        `
-                        radial-gradient(
-                            circle at ${x}px ${y}px,
-                            rgba(0, 132, 255, 0.09),
-                            rgba(4, 10, 19, 0.6) 45%
-                        )
-                        `;
-
-                }
+        const projectsContainer =
+            document.getElementById(
+                "githubProjects"
             );
 
 
-            card.addEventListener(
-                "mouseleave",
-                () => {
+        const repoCountElement =
+            document.getElementById(
+                "githubRepoCount"
+            );
 
-                    card.style.background =
-                        "";
 
-                }
+        if (!projectsContainer) {
+            return;
+        }
+
+
+        try {
+
+            const apiURL =
+                `https://api.github.com/users/${GITHUB_USERNAME}/repos` +
+                `?sort=updated` +
+                `&direction=desc` +
+                `&per_page=100` +
+                `&type=owner`;
+
+
+            const response =
+                await fetch(apiURL);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `GitHub API returned ${response.status}`
+                );
+
+            }
+
+
+            const repositories =
+                await response.json();
+
+
+
+            // =========================================
+            // REMOVE FORKS
+            // =========================================
+
+            const originalRepositories =
+                repositories.filter(
+                    (repo) => !repo.fork
+                );
+
+
+
+            // =========================================
+            // UPDATE REPOSITORY COUNT
+            // =========================================
+
+            if (repoCountElement) {
+
+                repoCountElement.textContent =
+                    originalRepositories.length;
+
+            }
+
+
+
+            // =========================================
+            // CHOOSE LATEST REPOSITORIES
+            // =========================================
+
+            const featuredRepositories =
+                originalRepositories.slice(
+                    0,
+                    GITHUB_REPOSITORY_LIMIT
+                );
+
+
+
+            if (
+                featuredRepositories.length ===
+                0
+            ) {
+
+                showNoProjects(
+                    projectsContainer
+                );
+
+                return;
+
+            }
+
+
+
+            // =========================================
+            // CREATE PROJECT CARDS
+            // =========================================
+
+            projectsContainer.innerHTML =
+                featuredRepositories
+                    .map(
+                        (repository, index) =>
+                            createRepositoryCard(
+                                repository,
+                                index
+                            )
+                    )
+                    .join("");
+
+
+
+            // Observe newly-generated cards
+            observeRevealElements();
+
+
+
+            // Re-enable card effects
+            setupCardMouseEffects();
+
+
+        } catch (error) {
+
+            console.error(
+                "GitHub project loading failed:",
+                error
+            );
+
+
+            showGitHubError(
+                projectsContainer
             );
 
         }
-    );
+
+    }
+
+
+
+    // =========================================
+    // CREATE GITHUB PROJECT CARD
+    // =========================================
+
+    function createRepositoryCard(
+        repository,
+        index
+    ) {
+
+        const projectNumber =
+            String(index + 1)
+                .padStart(
+                    2,
+                    "0"
+                );
+
+
+        const name =
+            formatRepositoryName(
+                repository.name
+            );
+
+
+        const description =
+            repository.description ||
+            "A project from my GitHub portfolio. Explore the repository to learn more about the code and development process.";
+
+
+        const language =
+            repository.language ||
+            "Code";
+
+
+        const stars =
+            repository.stargazers_count ??
+            0;
+
+
+        const forks =
+            repository.forks_count ??
+            0;
+
+
+        const updatedDate =
+            formatDate(
+                repository.updated_at
+            );
+
+
+        const repositoryURL =
+            repository.html_url;
+
+
+        const liveURL =
+            repository.homepage &&
+            repository.homepage.trim() !== ""
+                ? repository.homepage
+                : null;
+
+
+
+        return `
+
+            <article class="project-card reveal">
+
+                <div class="project-image">
+
+                    <div class="project-screen">
+
+                        <span class="screen-small">
+                            GITHUB REPOSITORY
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                shortenName(
+                                    repository.name
+                                )
+                            )}
+                        </strong>
+
+                        <span class="screen-blue">
+                            ${projectNumber}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="project-content">
+
+                    <div class="project-top">
+
+                        <span class="project-type">
+                            GITHUB PROJECT
+                        </span>
+
+                        <span class="project-number">
+                            ${projectNumber}
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        ${escapeHTML(name)}
+                    </h3>
+
+
+                    <p>
+                        ${escapeHTML(description)}
+                    </p>
+
+
+                    <div class="project-tech">
+
+                        <span>
+                            ${escapeHTML(language)}
+                        </span>
+
+                        <span>
+                            ★ ${stars}
+                        </span>
+
+                        <span>
+                            Forks ${forks}
+                        </span>
+
+                        <span>
+                            Updated ${escapeHTML(
+                                updatedDate
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="project-links">
+
+                        <a
+                            href="${escapeAttribute(repositoryURL)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                        >
+                            View Code ↗
+                        </a>
+
+
+                        ${
+                            liveURL
+                                ? `
+                                    <a
+                                        href="${escapeAttribute(liveURL)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="project-link"
+                                    >
+                                        Live Website ↗
+                                    </a>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+
+    // =========================================
+    // FORMAT REPOSITORY NAME
+    // =========================================
+
+    function formatRepositoryName(name) {
+
+        return name
+            .replace(
+                /[-_]+/g,
+                " "
+            )
+            .replace(
+                /\b\w/g,
+                (letter) =>
+                    letter.toUpperCase()
+            );
+
+    }
+
+
+
+    // =========================================
+    // SHORT NAME FOR PROJECT DISPLAY
+    // =========================================
+
+    function shortenName(name) {
+
+        const cleanName =
+            name
+                .replace(
+                    /[-_]+/g,
+                    " "
+                )
+                .toUpperCase();
+
+
+        if (cleanName.length <= 15) {
+
+            return cleanName;
+
+        }
+
+
+        return (
+            cleanName.substring(
+                0,
+                13
+            ) +
+            "..."
+        );
+
+    }
+
+
+
+    // =========================================
+    // FORMAT GITHUB DATE
+    // =========================================
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+
+            return "Recently";
+
+        }
+
+
+        const date =
+            new Date(
+                dateString
+            );
+
+
+        return date.toLocaleDateString(
+            undefined,
+            {
+
+                year:
+                    "numeric",
+
+                month:
+                    "short"
+
+            }
+        );
+
+    }
+
+
+
+    // =========================================
+    // HTML SECURITY HELPERS
+    // =========================================
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+    function escapeAttribute(value) {
+
+        return escapeHTML(
+            String(value)
+        );
+
+    }
+
+
+
+    // =========================================
+    // NO PROJECTS
+    // =========================================
+
+    function showNoProjects(
+        container
+    ) {
+
+        container.innerHTML = `
+
+            <article class="project-card reveal">
+
+                <div class="project-image">
+
+                    <div class="project-screen">
+
+                        <span class="screen-small">
+                            GITHUB
+                        </span>
+
+                        <strong>
+                            EMPTY
+                        </strong>
+
+                        <span class="screen-blue">
+                            00
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-content">
+
+                    <span class="project-type">
+                        NO PROJECTS FOUND
+                    </span>
+
+                    <h3>
+                        No public projects yet
+                    </h3>
+
+                    <p>
+                        New public GitHub repositories
+                        will automatically appear here.
+                    </p>
+
+                </div>
+
+            </article>
+
+        `;
+
+
+        observeRevealElements();
+
+    }
+
+
+
+    // =========================================
+    // GITHUB ERROR MESSAGE
+    // =========================================
+
+    function showGitHubError(
+        container
+    ) {
+
+        container.innerHTML = `
+
+            <article class="project-card reveal">
+
+                <div class="project-image">
+
+                    <div class="project-screen">
+
+                        <span class="screen-small">
+                            GITHUB
+                        </span>
+
+                        <strong>
+                            OFFLINE
+                        </strong>
+
+                        <span class="screen-blue">
+                            !
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="project-content">
+
+                    <span class="project-type">
+                        GITHUB CONNECTION
+                    </span>
+
+                    <h3>
+                        Couldn't load projects
+                    </h3>
+
+                    <p>
+                        GitHub may be temporarily unavailable
+                        or the API request limit may have been
+                        reached. You can still visit my GitHub
+                        profile directly.
+                    </p>
+
+
+                    <div class="project-links">
+
+                        <a
+                            href="https://github.com/${GITHUB_USERNAME}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="project-link"
+                        >
+                            Open GitHub ↗
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        `;
+
+
+        observeRevealElements();
+
+    }
+
+
+
+    // =========================================
+    // PROJECT / SKILL MOUSE EFFECT
+    // =========================================
+
+    function setupCardMouseEffects() {
+
+        const cards =
+            document.querySelectorAll(
+                ".project-card, .skill-card"
+            );
+
+
+        cards.forEach(
+            (card) => {
+
+                if (
+                    card.dataset.mouseEffect ===
+                    "true"
+                ) {
+
+                    return;
+
+                }
+
+
+                card.dataset.mouseEffect =
+                    "true";
+
+
+                card.addEventListener(
+                    "mousemove",
+                    (event) => {
+
+                        const rect =
+                            card.getBoundingClientRect();
+
+
+                        const x =
+                            event.clientX -
+                            rect.left;
+
+
+                        const y =
+                            event.clientY -
+                            rect.top;
+
+
+                        card.style.background =
+                            `
+                            radial-gradient(
+                                circle at ${x}px ${y}px,
+                                rgba(0, 132, 255, 0.09),
+                                rgba(4, 10, 19, 0.6) 45%
+                            )
+                            `;
+
+                    }
+                );
+
+
+                card.addEventListener(
+                    "mouseleave",
+                    () => {
+
+                        card.style.background =
+                            "";
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+
+    // =========================================
+    // START
+    // =========================================
+
+    setupCardMouseEffects();
+
+    loadGitHubProjects();
 
 });
