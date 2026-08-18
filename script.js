@@ -15,7 +15,8 @@ const GITHUB_REPOSITORY_LIMIT = 6;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const header = document.querySelector(".header");
+    const header =
+        document.querySelector(".header");
 
     const menuButton =
         document.getElementById("menuButton");
@@ -42,6 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // =========================================
 
     function updateHeader() {
+
+        if (!header) {
+            return;
+        }
+
 
         if (window.scrollY > 20) {
 
@@ -74,7 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // MOBILE MENU
     // =========================================
 
-    if (menuButton && navLinks) {
+    if (
+        menuButton &&
+        navLinks
+    ) {
 
         menuButton.addEventListener(
             "click",
@@ -100,9 +109,14 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             () => {
 
-                navLinks.classList.remove(
-                    "open"
-                );
+                if (navLinks) {
+
+                    navLinks.classList.remove(
+                        "open"
+                    );
+
+                }
+
 
                 document.body.classList.remove(
                     "menu-open"
@@ -205,10 +219,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 deleting = true;
 
+
                 setTimeout(
                     typeWriter,
                     1600
                 );
+
 
                 return;
 
@@ -234,7 +250,10 @@ document.addEventListener("DOMContentLoaded", () => {
             characterIndex--;
 
 
-            if (characterIndex === 0) {
+            if (
+                characterIndex ===
+                0
+            ) {
 
                 deleting = false;
 
@@ -291,6 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 "visible"
                             );
 
+
                             revealObserver.unobserve(
                                 entry.target
                             );
@@ -343,6 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(
             "section[id]"
         );
+
 
 
     function updateNavigation() {
@@ -410,7 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // ANIMATED NORMAL STATS
+    // NORMAL ANIMATED STATS
     // =========================================
 
     const statNumbers =
@@ -432,7 +453,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         ) {
 
                             animateCounter(
-                                entry.target
+                                entry.target,
+                                Number(
+                                    entry.target.dataset.count
+                                )
                             );
 
 
@@ -473,15 +497,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    function animateCounter(element) {
+    // =========================================
+    // COUNTER ANIMATION
+    // =========================================
 
-        const target =
-            Number(
-                element.dataset.count
-            );
+    function animateCounter(
+        element,
+        target
+    ) {
+
+        if (!element) {
+            return;
+        }
 
 
-        const duration = 1200;
+        target =
+            Number(target) || 0;
+
+
+        const duration =
+            1000;
 
 
         const startTime =
@@ -521,7 +556,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-            if (progress < 1) {
+            if (
+                progress < 1
+            ) {
 
                 requestAnimationFrame(
                     updateCounter
@@ -572,7 +609,210 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // GITHUB PROJECTS
+    // LOAD GITHUB PROFILE
+    // =========================================
+
+    async function loadGitHubProfile() {
+
+        const avatar =
+            document.getElementById(
+                "githubAvatar"
+            );
+
+        const displayName =
+            document.getElementById(
+                "githubDisplayName"
+            );
+
+        const username =
+            document.getElementById(
+                "githubUsername"
+            );
+
+        const bio =
+            document.getElementById(
+                "githubBio"
+            );
+
+        const profileRepos =
+            document.getElementById(
+                "githubProfileRepos"
+            );
+
+        const followers =
+            document.getElementById(
+                "githubFollowers"
+            );
+
+        const following =
+            document.getElementById(
+                "githubFollowing"
+            );
+
+        const profileLink =
+            document.getElementById(
+                "githubProfileLink"
+            );
+
+        const repoCount =
+            document.getElementById(
+                "githubRepoCount"
+            );
+
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `https://api.github.com/users/${GITHUB_USERNAME}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `GitHub profile request failed: ${response.status}`
+                );
+
+            }
+
+
+            const profile =
+                await response.json();
+
+
+
+            // =========================================
+            // PROFILE PICTURE
+            // =========================================
+
+            if (avatar) {
+
+                avatar.src =
+                    profile.avatar_url;
+
+                avatar.alt =
+                    `${profile.login} GitHub profile picture`;
+
+            }
+
+
+
+            // =========================================
+            // DISPLAY NAME
+            // =========================================
+
+            if (displayName) {
+
+                displayName.textContent =
+                    profile.name ||
+                    profile.login;
+
+            }
+
+
+
+            // =========================================
+            // USERNAME
+            // =========================================
+
+            if (username) {
+
+                username.textContent =
+                    `@${profile.login}`;
+
+                username.href =
+                    profile.html_url;
+
+            }
+
+
+
+            // =========================================
+            // BIO
+            // =========================================
+
+            if (bio) {
+
+                bio.textContent =
+                    profile.bio ||
+                    "Developer building projects, learning new technologies and creating cool things.";
+
+            }
+
+
+
+            // =========================================
+            // PROFILE LINK
+            // =========================================
+
+            if (profileLink) {
+
+                profileLink.href =
+                    profile.html_url;
+
+            }
+
+
+
+            // =========================================
+            // ANIMATED GITHUB STATS
+            // =========================================
+
+            animateCounter(
+                profileRepos,
+                profile.public_repos
+            );
+
+
+            animateCounter(
+                followers,
+                profile.followers
+            );
+
+
+            animateCounter(
+                following,
+                profile.following
+            );
+
+
+            animateCounter(
+                repoCount,
+                profile.public_repos
+            );
+
+
+
+            console.log(
+                "GitHub profile loaded successfully."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GitHub profile loading failed:",
+                error
+            );
+
+
+            if (bio) {
+
+                bio.textContent =
+                    "GitHub profile information is temporarily unavailable.";
+
+            }
+
+        }
+
+    }
+
+
+
+    // =========================================
+    // LOAD GITHUB PROJECTS
     // =========================================
 
     async function loadGitHubProjects() {
@@ -580,12 +820,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const projectsContainer =
             document.getElementById(
                 "githubProjects"
-            );
-
-
-        const repoCountElement =
-            document.getElementById(
-                "githubRepoCount"
             );
 
 
@@ -605,7 +839,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             const response =
-                await fetch(apiURL);
+                await fetch(
+                    apiURL
+                );
 
 
             if (!response.ok) {
@@ -628,21 +864,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const originalRepositories =
                 repositories.filter(
-                    (repo) => !repo.fork
+                    (repo) =>
+                        !repo.fork
                 );
-
-
-
-            // =========================================
-            // UPDATE REPOSITORY COUNT
-            // =========================================
-
-            if (repoCountElement) {
-
-                repoCountElement.textContent =
-                    originalRepositories.length;
-
-            }
 
 
 
@@ -667,6 +891,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     projectsContainer
                 );
 
+
                 return;
 
             }
@@ -680,7 +905,10 @@ document.addEventListener("DOMContentLoaded", () => {
             projectsContainer.innerHTML =
                 featuredRepositories
                     .map(
-                        (repository, index) =>
+                        (
+                            repository,
+                            index
+                        ) =>
                             createRepositoryCard(
                                 repository,
                                 index
@@ -690,13 +918,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-            // Observe newly-generated cards
+            // Observe generated cards
             observeRevealElements();
 
 
 
-            // Re-enable card effects
+            // Enable card effects
             setupCardMouseEffects();
+
+
+            console.log(
+                "GitHub projects loaded successfully."
+            );
 
 
         } catch (error) {
@@ -727,11 +960,12 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
 
         const projectNumber =
-            String(index + 1)
-                .padStart(
-                    2,
-                    "0"
-                );
+            String(
+                index + 1
+            ).padStart(
+                2,
+                "0"
+            );
 
 
         const name =
@@ -899,7 +1133,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMAT REPOSITORY NAME
     // =========================================
 
-    function formatRepositoryName(name) {
+    function formatRepositoryName(
+        name
+    ) {
 
         return name
             .replace(
@@ -917,10 +1153,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // SHORT NAME FOR PROJECT DISPLAY
+    // SHORTEN REPOSITORY NAME
     // =========================================
 
-    function shortenName(name) {
+    function shortenName(
+        name
+    ) {
 
         const cleanName =
             name
@@ -931,7 +1169,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 .toUpperCase();
 
 
-        if (cleanName.length <= 15) {
+        if (
+            cleanName.length <=
+            15
+        ) {
 
             return cleanName;
 
@@ -951,10 +1192,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // FORMAT GITHUB DATE
+    // FORMAT DATE
     // =========================================
 
-    function formatDate(dateString) {
+    function formatDate(
+        dateString
+    ) {
 
         if (!dateString) {
 
@@ -987,10 +1230,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // HTML SECURITY HELPERS
+    // SECURITY HELPERS
     // =========================================
 
-    function escapeHTML(value) {
+    function escapeHTML(
+        value
+    ) {
 
         return String(value)
             .replace(
@@ -1018,7 +1263,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    function escapeAttribute(value) {
+    function escapeAttribute(
+        value
+    ) {
 
         return escapeHTML(
             String(value)
@@ -1029,7 +1276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // NO PROJECTS
+    // NO PROJECTS FOUND
     // =========================================
 
     function showNoProjects(
@@ -1090,7 +1337,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // GITHUB ERROR MESSAGE
+    // GITHUB ERROR
     // =========================================
 
     function showGitHubError(
@@ -1133,10 +1380,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     </h3>
 
                     <p>
+
                         GitHub may be temporarily unavailable
                         or the API request limit may have been
-                        reached. You can still visit my GitHub
-                        profile directly.
+                        reached.
+
                     </p>
 
 
@@ -1167,7 +1415,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // PROJECT / SKILL MOUSE EFFECT
+    // CARD MOUSE GLOW EFFECT
     // =========================================
 
     function setupCardMouseEffects() {
@@ -1244,10 +1492,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // START
+    // START EVERYTHING
     // =========================================
 
     setupCardMouseEffects();
+
+
+    loadGitHubProfile();
+
 
     loadGitHubProjects();
 
