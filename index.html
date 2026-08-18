@@ -48,7 +48,7 @@
 
 
     <!-- =====================================================
-         CANONICAL URL
+         CANONICAL
     ====================================================== -->
 
     <link
@@ -74,7 +74,7 @@
 
 
     <!-- =====================================================
-         OPEN GRAPH / DISCORD / FACEBOOK
+         OPEN GRAPH
     ====================================================== -->
 
     <meta
@@ -129,7 +129,7 @@
 
     <meta
         property="og:image:alt"
-        content="JL Developer Portfolio - black and blue developer portfolio social preview"
+        content="JL Developer Portfolio"
     >
 
     <meta
@@ -178,7 +178,6 @@
         "@type": "Person",
         "name": "JL",
         "url": "https://personal-website-b7do.vercel.app/",
-        "image": "https://personal-website-b7do.vercel.app/assets/social-preview.png",
         "jobTitle": "Developer",
         "sameAs": [
             "https://github.com/bacondummy555-ship-it"
@@ -197,7 +196,7 @@
 
 
     <!-- =====================================================
-         FONTS
+         PERFORMANCE CONNECTION HINTS
     ====================================================== -->
 
     <link
@@ -211,20 +210,54 @@
         crossorigin
     >
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
 
     <!-- =====================================================
-         WEBSITE CSS
+         MAIN CSS
+         LOAD THIS FIRST
     ====================================================== -->
 
     <link
         rel="stylesheet"
-        href="style.css"
+        href="/style.css"
     >
+
+
+    <!-- =====================================================
+         NON-BLOCKING GOOGLE FONTS
+    ====================================================== -->
+
+    <link
+        rel="preload"
+        as="style"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        media="print"
+        onload="this.media='all'"
+    >
+
+    <noscript>
+
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        >
+
+    </noscript>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         DEFER = DOES NOT BLOCK HTML PARSING
+    ====================================================== -->
+
+    <script
+        src="/script.js"
+        defer
+    ></script>
 
 </head>
 
@@ -308,7 +341,10 @@
          BACKGROUND
     ====================================================== -->
 
-    <div class="background">
+    <div
+        class="background"
+        aria-hidden="true"
+    >
 
         <div class="grid"></div>
 
@@ -329,7 +365,10 @@
 
     <header class="header">
 
-        <nav class="navbar container">
+        <nav
+            class="navbar container"
+            aria-label="Main navigation"
+        >
 
             <a
                 href="#home"
@@ -421,6 +460,8 @@
                 class="menu-button"
                 id="menuButton"
                 aria-label="Open navigation menu"
+                aria-controls="navLinks"
+                aria-expanded="false"
                 type="button"
             >
 
@@ -434,6 +475,10 @@
 
     </header>
 
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
     <main>
 
@@ -462,7 +507,9 @@
 
 
                     <p class="hero-intro">
+
                         Hello, I'm
+
                     </p>
 
 
@@ -471,7 +518,9 @@
                         JL
 
                         <span class="gradient-text">
+
                             Developer.
+
                         </span>
 
                     </h1>
@@ -480,7 +529,9 @@
                     <div class="typing-row">
 
                         <span class="typing-prefix">
+
                             I build
+
                         </span>
 
                         <span
@@ -488,7 +539,10 @@
                             id="typingText"
                         ></span>
 
-                        <span class="typing-cursor"></span>
+                        <span
+                            class="typing-cursor"
+                            aria-hidden="true"
+                        ></span>
 
                     </div>
 
@@ -512,7 +566,9 @@
                             Explore Projects
 
                             <span class="button-arrow">
+
                                 →
+
                             </span>
 
                         </a>
@@ -543,7 +599,9 @@
                             target="_blank"
                             rel="noopener noreferrer"
                         >
+
                             GitHub
+
                         </a>
 
                     </div>
@@ -571,7 +629,9 @@
 
 
                             <div class="file-name">
+
                                 developer.js
+
                             </div>
 
 
@@ -851,6 +911,7 @@
             <a
                 href="#about"
                 class="scroll-indicator"
+                aria-label="Scroll to About section"
             >
 
                 <span>
@@ -868,7 +929,10 @@
              TECH STACK
         ================================================== -->
 
-        <section class="tech-stack-section">
+        <section
+            class="tech-stack-section"
+            aria-label="Technologies"
+        >
 
             <div class="tech-stack-label">
 
@@ -891,6 +955,7 @@
 
 
                 <div class="tech-marquee-track">
+
 
                     <div class="tech-item">
 
@@ -999,7 +1064,10 @@
                     <!-- DUPLICATE SET FOR LOOP -->
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             &lt;/&gt;
@@ -1012,7 +1080,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             #
@@ -1025,7 +1096,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             JS
@@ -1038,7 +1112,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             GIT
@@ -1051,7 +1128,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             GH
@@ -1064,7 +1144,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             VS
@@ -1077,7 +1160,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             ▲
@@ -1090,7 +1176,10 @@
                     </div>
 
 
-                    <div class="tech-item">
+                    <div
+                        class="tech-item"
+                        aria-hidden="true"
+                    >
 
                         <span class="tech-icon">
                             UI
@@ -1236,6 +1325,10 @@
                                     class="github-avatar"
                                     src=""
                                     alt="JL GitHub profile picture"
+                                    width="86"
+                                    height="86"
+                                    loading="lazy"
+                                    decoding="async"
                                 >
 
                                 <span class="github-online-dot"></span>
@@ -1274,7 +1367,9 @@
                             class="github-bio"
                             id="githubBio"
                         >
+
                             Loading GitHub profile...
+
                         </p>
 
 
@@ -1731,7 +1826,9 @@
 
 
                             <h3>
+
                                 Loading Projects
+
                             </h3>
 
 
@@ -1816,7 +1913,9 @@
                     <div class="contact-info reveal">
 
                         <span class="contact-eyebrow">
+
                             LET'S CONNECT
+
                         </span>
 
 
@@ -1946,7 +2045,9 @@
 
 
                                 <h3>
+
                                     Send a message
+
                                 </h3>
 
                             </div>
@@ -2173,7 +2274,7 @@
 
             <p>
 
-                Designed & Built with
+                Designed &amp; Built with
 
                 <span>
                     ♥
@@ -2198,13 +2299,6 @@
         </div>
 
     </footer>
-
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
-    <script src="script.js"></script>
 
 </body>
 
