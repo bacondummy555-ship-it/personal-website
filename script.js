@@ -1,172 +1,233 @@
 // =========================================================
 // JL PERSONAL PORTFOLIO
+// PERFORMANCE OPTIMIZED
 // =========================================================
 
 const GITHUB_USERNAME = "bacondummy555-ship-it";
 
 const GITHUB_REPOSITORY_LIMIT = 6;
-
 const GITHUB_ACTIVITY_LIMIT = 6;
 
 const GITHUB_CACHE_DURATION =
     5 * 60 * 1000;
 
 
+const prefersReducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+
+const hasFinePointer =
+    window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+    ).matches;
+
+
 // =========================================================
-// LOADING SCREEN
+// FAST LOADING SCREEN
 // =========================================================
 
 const loaderStartTime =
     performance.now();
 
 
-window.addEventListener(
-    "load",
-    () => {
+function finishLoader() {
 
-        const loader =
-            document.getElementById(
-                "siteLoader"
+    const loader =
+        document.getElementById(
+            "siteLoader"
+        );
+
+
+    const progressBar =
+        document.getElementById(
+            "loaderProgressBar"
+        );
+
+
+    const percentText =
+        document.getElementById(
+            "loaderPercent"
+        );
+
+
+    if (!loader) {
+
+        document.body.classList.remove(
+            "loading"
+        );
+
+        return;
+
+    }
+
+
+    const isMobile =
+        window.matchMedia(
+            "(max-width: 760px)"
+        ).matches;
+
+
+    const minimumDuration =
+        prefersReducedMotion
+            ? 0
+            : isMobile
+                ? 320
+                : 650;
+
+
+    const fadeDuration =
+        prefersReducedMotion
+            ? 0
+            : 160;
+
+
+    const elapsed =
+        performance.now() -
+        loaderStartTime;
+
+
+    const remainingTime =
+        Math.max(
+            0,
+            minimumDuration -
+            elapsed
+        );
+
+
+    function animateProgress() {
+
+        if (prefersReducedMotion) {
+            return;
+        }
+
+
+        const duration =
+            Math.max(
+                minimumDuration,
+                1
             );
 
-        const progressBar =
-            document.getElementById(
-                "loaderProgressBar"
+
+        const progress =
+            Math.min(
+                1,
+                (
+                    performance.now() -
+                    loaderStartTime
+                ) /
+                duration
             );
 
-        const percentText =
-            document.getElementById(
-                "loaderPercent"
+
+        const percentage =
+            Math.round(
+                12 +
+                progress *
+                88
             );
 
 
-        if (!loader) {
+        if (progressBar) {
+
+            progressBar.style.width =
+                `${percentage}%`;
+
+        }
+
+
+        if (percentText) {
+
+            percentText.textContent =
+                `${percentage}%`;
+
+        }
+
+
+        if (progress < 1) {
+
+            requestAnimationFrame(
+                animateProgress
+            );
+
+        }
+
+    }
+
+
+    requestAnimationFrame(
+        animateProgress
+    );
+
+
+    window.setTimeout(
+        () => {
+
+            if (progressBar) {
+
+                progressBar.style.width =
+                    "100%";
+
+            }
+
+
+            if (percentText) {
+
+                percentText.textContent =
+                    "100%";
+
+            }
+
+
+            loader.classList.add(
+                "loader-hidden"
+            );
+
 
             document.body.classList.remove(
                 "loading"
             );
 
-            return;
 
-        }
-
-
-        let percentage = 0;
-
-
-        const interval =
-            setInterval(
+            window.setTimeout(
                 () => {
 
-                    const remaining =
-                        100 -
-                        percentage;
-
-
-                    percentage +=
-                        Math.max(
-                            1,
-                            Math.ceil(
-                                remaining *
-                                0.16
-                            )
-                        );
-
-
-                    percentage =
-                        Math.min(
-                            percentage,
-                            100
-                        );
-
-
-                    if (progressBar) {
-
-                        progressBar.style.width =
-                            `${percentage}%`;
-
-                    }
-
-
-                    if (percentText) {
-
-                        percentText.textContent =
-                            `${percentage}%`;
-
-                    }
-
-
-                    if (percentage >= 100) {
-
-                        clearInterval(
-                            interval
-                        );
-
-                    }
+                    loader.setAttribute(
+                        "hidden",
+                        ""
+                    );
 
                 },
-                55
+                fadeDuration +
+                50
             );
 
+        },
+        remainingTime
+    );
 
-        const elapsed =
-            performance.now() -
-            loaderStartTime;
-
-
-        const minimumDuration =
-            1350;
+}
 
 
-        const remainingTime =
-            Math.max(
-                0,
-                minimumDuration -
-                elapsed
-            );
+if (
+    document.readyState ===
+    "loading"
+) {
 
+    document.addEventListener(
+        "DOMContentLoaded",
+        finishLoader,
+        {
+            once: true
+        }
+    );
 
-        setTimeout(
-            () => {
+} else {
 
-                if (progressBar) {
+    finishLoader();
 
-                    progressBar.style.width =
-                        "100%";
-
-                }
-
-
-                if (percentText) {
-
-                    percentText.textContent =
-                        "100%";
-
-                }
-
-
-                setTimeout(
-                    () => {
-
-                        loader.classList.add(
-                            "loader-hidden"
-                        );
-
-
-                        document.body.classList.remove(
-                            "loading"
-                        );
-
-                    },
-                    250
-                );
-
-            },
-            remainingTime
-        );
-
-    }
-);
+}
 
 
 // =========================================================
@@ -177,35 +238,44 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
 
+
         const header =
             document.querySelector(
                 ".header"
             );
+
 
         const menuButton =
             document.getElementById(
                 "menuButton"
             );
 
+
         const navLinks =
             document.getElementById(
                 "navLinks"
             );
 
+
         const navItems =
-            document.querySelectorAll(
-                ".nav-link"
+            Array.from(
+                document.querySelectorAll(
+                    ".nav-link"
+                )
             );
+
 
         const cursorGlow =
             document.getElementById(
                 "cursorGlow"
             );
 
+
         const typingText =
             document.getElementById(
                 "typingText"
             );
+
 
         const backTop =
             document.getElementById(
@@ -217,6 +287,10 @@ document.addEventListener(
         // HEADER
         // =================================================
 
+        let scrollFramePending =
+            false;
+
+
         function updateHeader() {
 
             if (!header) {
@@ -226,7 +300,33 @@ document.addEventListener(
 
             header.classList.toggle(
                 "scrolled",
-                window.scrollY > 20
+                window.scrollY >
+                20
+            );
+
+        }
+
+
+        function handleScroll() {
+
+            if (scrollFramePending) {
+                return;
+            }
+
+
+            scrollFramePending =
+                true;
+
+
+            requestAnimationFrame(
+                () => {
+
+                    updateHeader();
+
+                    scrollFramePending =
+                        false;
+
+                }
             );
 
         }
@@ -234,7 +334,10 @@ document.addEventListener(
 
         window.addEventListener(
             "scroll",
-            updateHeader
+            handleScroll,
+            {
+                passive: true
+            }
         );
 
 
@@ -245,22 +348,58 @@ document.addEventListener(
         // MOBILE MENU
         // =================================================
 
+        function closeMenu() {
+
+            navLinks?.classList.remove(
+                "open"
+            );
+
+
+            document.body.classList.remove(
+                "menu-open"
+            );
+
+
+            menuButton?.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+
         if (
             menuButton &&
             navLinks
         ) {
 
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+
             menuButton.addEventListener(
                 "click",
                 () => {
 
-                    navLinks.classList.toggle(
-                        "open"
-                    );
+                    const isOpen =
+                        navLinks.classList.toggle(
+                            "open"
+                        );
 
 
                     document.body.classList.toggle(
-                        "menu-open"
+                        "menu-open",
+                        isOpen
+                    );
+
+
+                    menuButton.setAttribute(
+                        "aria-expanded",
+                        String(
+                            isOpen
+                        )
                     );
 
                 }
@@ -274,20 +413,29 @@ document.addEventListener(
 
                 item.addEventListener(
                     "click",
-                    () => {
-
-                        navLinks?.classList.remove(
-                            "open"
-                        );
-
-
-                        document.body.classList.remove(
-                            "menu-open"
-                        );
-
-                    }
+                    closeMenu
                 );
 
+            }
+        );
+
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                if (
+                    window.innerWidth >
+                    760
+                ) {
+
+                    closeMenu();
+
+                }
+
+            },
+            {
+                passive: true
             }
         );
 
@@ -296,23 +444,77 @@ document.addEventListener(
         // CURSOR GLOW
         // =================================================
 
-        if (cursorGlow) {
+        if (
+            cursorGlow &&
+            hasFinePointer &&
+            !prefersReducedMotion
+        ) {
+
+            cursorGlow.style.left =
+                "0";
+
+
+            cursorGlow.style.top =
+                "0";
+
+
+            let pointerX =
+                0;
+
+
+            let pointerY =
+                0;
+
+
+            let pointerFramePending =
+                false;
+
 
             document.addEventListener(
-                "mousemove",
+                "pointermove",
                 (event) => {
 
-                    cursorGlow.style.left =
-                        `${event.clientX}px`;
+                    pointerX =
+                        event.clientX;
 
 
-                    cursorGlow.style.top =
-                        `${event.clientY}px`;
+                    pointerY =
+                        event.clientY;
 
 
-                    cursorGlow.style.opacity =
-                        "1";
+                    if (
+                        pointerFramePending
+                    ) {
 
+                        return;
+
+                    }
+
+
+                    pointerFramePending =
+                        true;
+
+
+                    requestAnimationFrame(
+                        () => {
+
+                            cursorGlow.style.transform =
+                                `translate3d(calc(${pointerX}px - 50%), calc(${pointerY}px - 50%), 0)`;
+
+
+                            cursorGlow.style.opacity =
+                                "1";
+
+
+                            pointerFramePending =
+                                false;
+
+                        }
+                    );
+
+                },
+                {
+                    passive: true
                 }
             );
 
@@ -327,6 +529,11 @@ document.addEventListener(
                 }
             );
 
+        } else if (cursorGlow) {
+
+            cursorGlow.style.display =
+                "none";
+
         }
 
 
@@ -337,19 +544,50 @@ document.addEventListener(
         const words = [
 
             "modern websites.",
+
             "creative experiences.",
+
             "useful applications.",
+
             "cool projects.",
+
             "the future."
 
         ];
 
 
-        let wordIndex = 0;
+        let wordIndex =
+            0;
 
-        let characterIndex = 0;
 
-        let deleting = false;
+        let characterIndex =
+            0;
+
+
+        let deleting =
+            false;
+
+
+        let typingTimer =
+            null;
+
+
+        function scheduleTyping(
+            delay
+        ) {
+
+            window.clearTimeout(
+                typingTimer
+            );
+
+
+            typingTimer =
+                window.setTimeout(
+                    typeWriter,
+                    delay
+                );
+
+        }
 
 
         function typeWriter() {
@@ -359,8 +597,21 @@ document.addEventListener(
             }
 
 
+            if (document.hidden) {
+
+                scheduleTyping(
+                    500
+                );
+
+                return;
+
+            }
+
+
             const word =
-                words[wordIndex];
+                words[
+                    wordIndex
+                ];
 
 
             if (!deleting) {
@@ -368,7 +619,8 @@ document.addEventListener(
                 typingText.textContent =
                     word.substring(
                         0,
-                        characterIndex + 1
+                        characterIndex +
+                        1
                     );
 
 
@@ -380,11 +632,11 @@ document.addEventListener(
                     word.length
                 ) {
 
-                    deleting = true;
+                    deleting =
+                        true;
 
 
-                    setTimeout(
-                        typeWriter,
+                    scheduleTyping(
                         1500
                     );
 
@@ -394,75 +646,110 @@ document.addEventListener(
                 }
 
 
-                setTimeout(
-                    typeWriter,
+                scheduleTyping(
                     70
                 );
 
-            } else {
 
-                characterIndex--;
+                return;
 
+            }
+
+
+            characterIndex--;
+
+
+            typingText.textContent =
+                word.substring(
+                    0,
+                    characterIndex
+                );
+
+
+            if (
+                characterIndex ===
+                0
+            ) {
+
+                deleting =
+                    false;
+
+
+                wordIndex =
+                    (
+                        wordIndex +
+                        1
+                    ) %
+                    words.length;
+
+
+                scheduleTyping(
+                    300
+                );
+
+
+                return;
+
+            }
+
+
+            scheduleTyping(
+                35
+            );
+
+        }
+
+
+        if (typingText) {
+
+            if (
+                prefersReducedMotion
+            ) {
 
                 typingText.textContent =
-                    word.substring(
-                        0,
-                        characterIndex
-                    );
+                    words[0];
 
+            } else {
 
-                if (
-                    characterIndex === 0
-                ) {
-
-                    deleting = false;
-
-
-                    wordIndex =
-                        (
-                            wordIndex + 1
-                        ) %
-                        words.length;
-
-
-                    setTimeout(
-                        typeWriter,
-                        300
-                    );
-
-
-                    return;
-
-                }
-
-
-                setTimeout(
-                    typeWriter,
-                    35
-                );
+                typeWriter();
 
             }
 
         }
 
 
-        typeWriter();
-
-
         // =================================================
         // REVEAL
         // =================================================
 
-        const revealObserver =
-            new IntersectionObserver(
-                (entries) => {
+        let revealObserver =
+            null;
 
-                    entries.forEach(
-                        (entry) => {
 
-                            if (
-                                entry.isIntersecting
-                            ) {
+        if (
+            "IntersectionObserver"
+            in window
+        ) {
+
+            revealObserver =
+                new IntersectionObserver(
+                    (
+                        entries
+                    ) => {
+
+                        entries.forEach(
+                            (
+                                entry
+                            ) => {
+
+                                if (
+                                    !entry.isIntersecting
+                                ) {
+
+                                    return;
+
+                                }
+
 
                                 entry.target.classList.add(
                                     "visible"
@@ -474,32 +761,57 @@ document.addEventListener(
                                 );
 
                             }
+                        );
 
-                        }
-                    );
+                    },
+                    {
 
-                },
-                {
-                    threshold: 0.12
-                }
-            );
+                        threshold:
+                            0.08,
+
+                        rootMargin:
+                            "0px 0px -40px 0px"
+
+                    }
+                );
+
+        }
 
 
         function observeRevealElements() {
 
-            document
-                .querySelectorAll(
+            const elements =
+                document.querySelectorAll(
                     ".reveal:not(.visible)"
-                )
-                .forEach(
-                    (element) => {
+                );
 
-                        revealObserver.observe(
-                            element
+
+            elements.forEach(
+                (
+                    element
+                ) => {
+
+                    if (
+                        prefersReducedMotion ||
+                        !revealObserver
+                    ) {
+
+                        element.classList.add(
+                            "visible"
                         );
 
+
+                        return;
+
                     }
-                );
+
+
+                    revealObserver.observe(
+                        element
+                    );
+
+                }
+            );
 
         }
 
@@ -512,44 +824,28 @@ document.addEventListener(
         // =================================================
 
         const sections =
-            document.querySelectorAll(
-                "section[id]"
+            Array.from(
+                document.querySelectorAll(
+                    "section[id]"
+                )
             );
 
 
-        function updateNavigation() {
-
-            let current =
-                "home";
-
-
-            sections.forEach(
-                (section) => {
-
-                    if (
-                        window.scrollY >=
-                        section.offsetTop -
-                        180
-                    ) {
-
-                        current =
-                            section.id;
-
-                    }
-
-                }
-            );
-
+        function setActiveNavigation(
+            sectionId
+        ) {
 
             navItems.forEach(
-                (item) => {
+                (
+                    item
+                ) => {
 
                     item.classList.toggle(
                         "active",
                         item.getAttribute(
                             "href"
                         ) ===
-                        `#${current}`
+                        `#${sectionId}`
                     );
 
                 }
@@ -558,13 +854,84 @@ document.addEventListener(
         }
 
 
-        window.addEventListener(
-            "scroll",
-            updateNavigation
-        );
+        if (
+            "IntersectionObserver"
+            in window &&
+            sections.length >
+            0
+        ) {
+
+            const sectionObserver =
+                new IntersectionObserver(
+                    (
+                        entries
+                    ) => {
+
+                        const visibleSections =
+                            entries
+                                .filter(
+                                    (
+                                        entry
+                                    ) =>
+                                        entry.isIntersecting
+                                )
+                                .sort(
+                                    (
+                                        a,
+                                        b
+                                    ) =>
+                                        b.intersectionRatio -
+                                        a.intersectionRatio
+                                );
 
 
-        updateNavigation();
+                        if (
+                            visibleSections[0]
+                        ) {
+
+                            setActiveNavigation(
+                                visibleSections[0]
+                                    .target
+                                    .id
+                            );
+
+                        }
+
+                    },
+                    {
+
+                        rootMargin:
+                            "-28% 0px -55% 0px",
+
+                        threshold: [
+                            0.01,
+                            0.15,
+                            0.35
+                        ]
+
+                    }
+                );
+
+
+            sections.forEach(
+                (
+                    section
+                ) => {
+
+                    sectionObserver.observe(
+                        section
+                    );
+
+                }
+            );
+
+        } else {
+
+            setActiveNavigation(
+                "home"
+            );
+
+        }
 
 
         // =================================================
@@ -581,9 +948,24 @@ document.addEventListener(
             }
 
 
-            target =
-                Number(target) ||
+            const finalTarget =
+                Number(
+                    target
+                ) ||
                 0;
+
+
+            if (
+                prefersReducedMotion
+            ) {
+
+                element.textContent =
+                    finalTarget;
+
+
+                return;
+
+            }
 
 
             const start =
@@ -591,10 +973,12 @@ document.addEventListener(
 
 
             const duration =
-                900;
+                700;
 
 
-            function frame(now) {
+            function frame(
+                now
+            ) {
 
                 const progress =
                     Math.min(
@@ -618,13 +1002,14 @@ document.addEventListener(
 
                 element.textContent =
                     Math.floor(
-                        target *
+                        finalTarget *
                         eased
                     );
 
 
                 if (
-                    progress < 1
+                    progress <
+                    1
                 ) {
 
                     requestAnimationFrame(
@@ -634,7 +1019,7 @@ document.addEventListener(
                 } else {
 
                     element.textContent =
-                        target;
+                        finalTarget;
 
                 }
 
@@ -654,16 +1039,30 @@ document.addEventListener(
             );
 
 
-        const statObserver =
-            new IntersectionObserver(
-                (entries) => {
+        if (
+            "IntersectionObserver"
+            in window
+        ) {
 
-                    entries.forEach(
-                        (entry) => {
+            const statObserver =
+                new IntersectionObserver(
+                    (
+                        entries
+                    ) => {
 
-                            if (
-                                entry.isIntersecting
-                            ) {
+                        entries.forEach(
+                            (
+                                entry
+                            ) => {
+
+                                if (
+                                    !entry.isIntersecting
+                                ) {
+
+                                    return;
+
+                                }
+
 
                                 if (
                                     entry.target.id !==
@@ -672,7 +1071,9 @@ document.addEventListener(
 
                                     animateCounter(
                                         entry.target,
-                                        entry.target.dataset.count
+                                        entry.target
+                                            .dataset
+                                            .count
                                     );
 
                                 }
@@ -683,26 +1084,31 @@ document.addEventListener(
                                 );
 
                             }
+                        );
 
-                        }
+                    },
+                    {
+
+                        threshold:
+                            0.35
+
+                    }
+                );
+
+
+            statNumbers.forEach(
+                (
+                    stat
+                ) => {
+
+                    statObserver.observe(
+                        stat
                     );
 
-                },
-                {
-                    threshold: 0.5
                 }
             );
 
-
-        statNumbers.forEach(
-            (stat) => {
-
-                statObserver.observe(
-                    stat
-                );
-
-            }
-        );
+        }
 
 
         // =================================================
@@ -731,6 +1137,7 @@ document.addEventListener(
 
 
                     if (
+                        parsed &&
                         Date.now() -
                         parsed.timestamp <
                         GITHUB_CACHE_DURATION
@@ -753,7 +1160,9 @@ document.addEventListener(
 
                 }
 
-            } catch (error) {
+            } catch (
+                error
+            ) {
 
                 console.warn(
                     "GitHub cache read failed:",
@@ -767,15 +1176,21 @@ document.addEventListener(
                 await fetch(
                     url,
                     {
+
                         headers: {
+
                             Accept:
                                 "application/vnd.github+json"
+
                         }
+
                     }
                 );
 
 
-            if (!response.ok) {
+            if (
+                !response.ok
+            ) {
 
                 throw new Error(
                     `GitHub ${response.status}`
@@ -797,12 +1212,16 @@ document.addEventListener(
                 localStorage.setItem(
                     cacheKey,
                     JSON.stringify({
+
                         timestamp,
                         data
+
                     })
                 );
 
-            } catch (error) {
+            } catch (
+                error
+            ) {
 
                 console.warn(
                     "GitHub cache write failed:",
@@ -830,14 +1249,30 @@ document.addEventListener(
         // GITHUB PROFILE
         // =================================================
 
+        let profileLoaded =
+            false;
+
+
         async function loadGitHubProfile() {
+
+            if (profileLoaded) {
+                return;
+            }
+
+
+            profileLoaded =
+                true;
+
 
             try {
 
                 const result =
                     await fetchGitHubCached(
+
                         `https://api.github.com/users/${GITHUB_USERNAME}`,
+
                         `github-profile-${GITHUB_USERNAME}`
+
                     );
 
 
@@ -860,6 +1295,14 @@ document.addEventListener(
                     avatar.alt =
                         `${profile.login} GitHub profile picture`;
 
+
+                    avatar.loading =
+                        "lazy";
+
+
+                    avatar.decoding =
+                        "async";
+
                 }
 
 
@@ -869,7 +1312,9 @@ document.addEventListener(
                     );
 
 
-                if (displayName) {
+                if (
+                    displayName
+                ) {
 
                     displayName.textContent =
                         profile.name ||
@@ -917,7 +1362,9 @@ document.addEventListener(
                     );
 
 
-                if (profileLink) {
+                if (
+                    profileLink
+                ) {
 
                     profileLink.href =
                         profile.html_url;
@@ -926,37 +1373,55 @@ document.addEventListener(
 
 
                 animateCounter(
+
                     document.getElementById(
                         "githubProfileRepos"
                     ),
+
                     profile.public_repos
+
                 );
 
 
                 animateCounter(
+
                     document.getElementById(
                         "githubFollowers"
                     ),
+
                     profile.followers
+
                 );
 
 
                 animateCounter(
+
                     document.getElementById(
                         "githubFollowing"
                     ),
+
                     profile.following
+
                 );
 
 
                 animateCounter(
+
                     document.getElementById(
                         "githubRepoCount"
                     ),
+
                     profile.public_repos
+
                 );
 
-            } catch (error) {
+            } catch (
+                error
+            ) {
+
+                profileLoaded =
+                    false;
+
 
                 console.error(
                     "GitHub profile failed:",
@@ -972,7 +1437,16 @@ document.addEventListener(
         // GITHUB ACTIVITY
         // =================================================
 
+        let activityLoaded =
+            false;
+
+
         async function loadGitHubActivity() {
+
+            if (activityLoaded) {
+                return;
+            }
+
 
             const container =
                 document.getElementById(
@@ -991,12 +1465,19 @@ document.addEventListener(
             }
 
 
+            activityLoaded =
+                true;
+
+
             try {
 
                 const result =
                     await fetchGitHubCached(
+
                         `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=30`,
+
                         `github-events-${GITHUB_USERNAME}`
+
                     );
 
 
@@ -1021,14 +1502,22 @@ document.addEventListener(
                 const supported =
                     events
                         .filter(
-                            (event) => {
+                            (
+                                event
+                            ) => {
 
                                 return [
+
                                     "PushEvent",
+
                                     "CreateEvent",
+
                                     "WatchEvent",
+
                                     "ForkEvent",
+
                                     "PullRequestEvent"
+
                                 ].includes(
                                     event.type
                                 );
@@ -1067,9 +1556,17 @@ document.addEventListener(
                         .map(
                             createActivityItem
                         )
-                        .join("");
+                        .join(
+                            ""
+                        );
 
-            } catch (error) {
+            } catch (
+                error
+            ) {
+
+                activityLoaded =
+                    false;
+
 
                 console.error(
                     "Activity failed:",
@@ -1143,7 +1640,8 @@ document.addEventListener(
                     Number.isFinite(
                         payload.size
                     ) &&
-                    payload.size > 0
+                    payload.size >
+                    0
                 ) {
 
                     count =
@@ -1153,14 +1651,16 @@ document.addEventListener(
                     Number.isFinite(
                         payload.distinct_size
                     ) &&
-                    payload.distinct_size > 0
+                    payload.distinct_size >
+                    0
                 ) {
 
                     count =
                         payload.distinct_size;
 
                 } else if (
-                    commits.length > 0
+                    commits.length >
+                    0
                 ) {
 
                     count =
@@ -1272,7 +1772,9 @@ document.addEventListener(
 
 
             const repoURL =
-                repo.includes("/")
+                repo.includes(
+                    "/"
+                )
                     ? `https://github.com/${repo}`
                     : `https://github.com/${GITHUB_USERNAME}`;
 
@@ -1301,6 +1803,7 @@ document.addEventListener(
 
                         </div>
 
+
                         <div class="activity-detail">
 
                             ${escapeHTML(detail)}
@@ -1312,11 +1815,13 @@ document.addEventListener(
 
                     <div class="activity-time">
 
-                        ${escapeHTML(
-                            relativeTime(
-                                event.created_at
+                        ${
+                            escapeHTML(
+                                relativeTime(
+                                    event.created_at
+                                )
                             )
-                        )}
+                        }
 
                     </div>
 
@@ -1331,7 +1836,16 @@ document.addEventListener(
         // PROJECTS
         // =================================================
 
+        let projectsLoaded =
+            false;
+
+
         async function loadGitHubProjects() {
+
+            if (projectsLoaded) {
+                return;
+            }
+
 
             const container =
                 document.getElementById(
@@ -1344,25 +1858,38 @@ document.addEventListener(
             }
 
 
+            projectsLoaded =
+                true;
+
+
             try {
 
                 const result =
                     await fetchGitHubCached(
+
                         `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&direction=desc&per_page=100&type=owner`,
+
                         `github-repos-${GITHUB_USERNAME}`
+
                     );
 
 
                 const repos =
-                    result.data
-                        .filter(
-                            (repo) =>
-                                !repo.fork
-                        )
-                        .slice(
-                            0,
-                            GITHUB_REPOSITORY_LIMIT
-                        );
+                    Array.isArray(
+                        result.data
+                    )
+                        ? result.data
+                            .filter(
+                                (
+                                    repo
+                                ) =>
+                                    !repo.fork
+                            )
+                            .slice(
+                                0,
+                                GITHUB_REPOSITORY_LIMIT
+                            )
+                        : [];
 
 
                 container.innerHTML =
@@ -1373,21 +1900,26 @@ document.addEventListener(
                                 index
                             ) => {
 
+
                                 const number =
                                     String(
                                         index +
                                         1
                                     )
-                                    .padStart(
-                                        2,
-                                        "0"
-                                    );
+                                        .padStart(
+                                            2,
+                                            "0"
+                                        );
 
 
                                 const homepage =
+
                                     repo.homepage &&
+
                                     repo.homepage.trim()
+
                                         ? repo.homepage
+
                                         : null;
 
 
@@ -1405,13 +1937,17 @@ document.addEventListener(
 
                                                 </span>
 
+
                                                 <strong>
 
-                                                    ${escapeHTML(
-                                                        repo.name
-                                                    )}
+                                                    ${
+                                                        escapeHTML(
+                                                            repo.name
+                                                        )
+                                                    }
 
                                                 </strong>
+
 
                                                 <span class="screen-blue">
 
@@ -1434,6 +1970,7 @@ document.addEventListener(
 
                                                 </span>
 
+
                                                 <span>
 
                                                     ${number}
@@ -1445,21 +1982,28 @@ document.addEventListener(
 
                                             <h3>
 
-                                                ${escapeHTML(
-                                                    formatName(
-                                                        repo.name
+                                                ${
+                                                    escapeHTML(
+                                                        formatName(
+                                                            repo.name
+                                                        )
                                                     )
-                                                )}
+                                                }
 
                                             </h3>
 
 
                                             <p>
 
-                                                ${escapeHTML(
-                                                    repo.description ||
-                                                    "A project from my GitHub portfolio."
-                                                )}
+                                                ${
+                                                    escapeHTML(
+
+                                                        repo.description ||
+
+                                                        "A project from my GitHub portfolio."
+
+                                                    )
+                                                }
 
                                             </p>
 
@@ -1468,18 +2012,22 @@ document.addEventListener(
 
                                                 <span>
 
-                                                    ${escapeHTML(
-                                                        repo.language ||
-                                                        "Code"
-                                                    )}
+                                                    ${
+                                                        escapeHTML(
+                                                            repo.language ||
+                                                            "Code"
+                                                        )
+                                                    }
 
                                                 </span>
+
 
                                                 <span>
 
                                                     ★ ${repo.stargazers_count}
 
                                                 </span>
+
 
                                                 <span>
 
@@ -1498,8 +2046,11 @@ document.addEventListener(
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                 >
+
                                                     View Code ↗
+
                                                 </a>
+
 
                                                 ${
                                                     homepage
@@ -1511,7 +2062,9 @@ document.addEventListener(
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                             >
+
                                                                 Live Website ↗
+
                                                             </a>
 
                                                         `
@@ -1528,12 +2081,20 @@ document.addEventListener(
 
                             }
                         )
-                        .join("");
+                        .join(
+                            ""
+                        );
 
 
                 observeRevealElements();
 
-            } catch (error) {
+            } catch (
+                error
+            ) {
+
+                projectsLoaded =
+                    false;
+
 
                 console.error(
                     "Projects failed:",
@@ -1548,8 +2109,11 @@ document.addEventListener(
                         <div class="project-content">
 
                             <h3>
+
                                 GitHub unavailable
+
                             </h3>
+
 
                             <p>
 
@@ -1566,6 +2130,119 @@ document.addEventListener(
             }
 
         }
+
+
+        // =================================================
+        // LAZY GITHUB LOADING
+        // =================================================
+
+        function observeSectionOnce(
+            selector,
+            callback,
+            rootMargin =
+                "500px 0px"
+        ) {
+
+            const section =
+                document.querySelector(
+                    selector
+                );
+
+
+            if (!section) {
+                return;
+            }
+
+
+            if (
+                !(
+                    "IntersectionObserver"
+                    in window
+                )
+            ) {
+
+                callback();
+
+                return;
+
+            }
+
+
+            const observer =
+                new IntersectionObserver(
+                    (
+                        entries
+                    ) => {
+
+                        const visible =
+                            entries.some(
+                                (
+                                    entry
+                                ) =>
+                                    entry.isIntersecting
+                            );
+
+
+                        if (!visible) {
+                            return;
+                        }
+
+
+                        observer.disconnect();
+
+
+                        callback();
+
+                    },
+                    {
+
+                        rootMargin,
+
+                        threshold:
+                            0.01
+
+                    }
+                );
+
+
+            observer.observe(
+                section
+            );
+
+        }
+
+
+        observeSectionOnce(
+
+            "#about",
+
+            loadGitHubProfile,
+
+            "450px 0px"
+
+        );
+
+
+        observeSectionOnce(
+
+            "#activity",
+
+            loadGitHubActivity,
+
+            "500px 0px"
+
+        );
+
+
+        observeSectionOnce(
+
+            "#projects",
+
+            loadGitHubProjects,
+
+            "550px 0px"
+
+        );
 
 
         // =================================================
@@ -1619,7 +2296,8 @@ document.addEventListener(
             if (startedAt) {
 
                 startedAt.value =
-                    Date.now().toString();
+                    Date.now()
+                        .toString();
 
             }
 
@@ -1639,7 +2317,9 @@ document.addEventListener(
                 () => {
 
                     messageCounter.textContent =
-                        messageField.value.length;
+                        messageField
+                            .value
+                            .length;
 
                 }
             );
@@ -1688,7 +2368,9 @@ document.addEventListener(
             submitting
         ) {
 
-            if (contactSubmit) {
+            if (
+                contactSubmit
+            ) {
 
                 contactSubmit.disabled =
                     submitting;
@@ -1702,7 +2384,9 @@ document.addEventListener(
             }
 
 
-            if (contactSubmitText) {
+            if (
+                contactSubmitText
+            ) {
 
                 contactSubmitText.textContent =
                     submitting
@@ -1829,7 +2513,8 @@ document.addEventListener(
                             );
 
 
-                        let result = {};
+                        let result =
+                            {};
 
 
                         try {
@@ -1837,7 +2522,12 @@ document.addEventListener(
                             result =
                                 await response.json();
 
-                        } catch {}
+                        } catch {
+
+                            result =
+                                {};
+
+                        }
 
 
                         if (
@@ -1845,8 +2535,11 @@ document.addEventListener(
                         ) {
 
                             throw new Error(
+
                                 result.message ||
+
                                 "Message could not be sent."
+
                             );
 
                         }
@@ -1876,12 +2569,16 @@ document.addEventListener(
 
                         resetFormTimer();
 
-
-                    } catch (error) {
+                    } catch (
+                        error
+                    ) {
 
                         console.error(
+
                             "Contact form error:",
+
                             error
+
                         );
 
 
@@ -1890,6 +2587,7 @@ document.addEventListener(
                             "error",
 
                             error.message ||
+
                             "Something went wrong. Please try again."
 
                         );
@@ -1922,7 +2620,9 @@ document.addEventListener(
                         0,
 
                     behavior:
-                        "smooth"
+                        prefersReducedMotion
+                            ? "auto"
+                            : "smooth"
 
                 });
 
@@ -1938,7 +2638,9 @@ document.addEventListener(
             value
         ) {
 
-            return String(value)
+            return String(
+                value
+            )
 
                 .replace(
                     /&/g,
@@ -1983,7 +2685,9 @@ document.addEventListener(
             name
         ) {
 
-            return String(name)
+            return String(
+                name
+            )
 
                 .replace(
                     /[-_]+/g,
@@ -1992,7 +2696,9 @@ document.addEventListener(
 
                 .replace(
                     /\b\w/g,
-                    (letter) =>
+                    (
+                        letter
+                    ) =>
                         letter.toUpperCase()
                 );
 
@@ -2011,10 +2717,17 @@ document.addEventListener(
 
 
             return text
+
                 ? text
-                    .charAt(0)
+                    .charAt(
+                        0
+                    )
                     .toUpperCase() +
-                    text.slice(1)
+
+                    text.slice(
+                        1
+                    )
+
                 : "";
 
         }
@@ -2039,13 +2752,23 @@ document.addEventListener(
                 );
 
 
-            if (seconds < 10) {
+            if (
+                seconds <
+                10
+            ) {
+
                 return "just now";
+
             }
 
 
-            if (seconds < 60) {
+            if (
+                seconds <
+                60
+            ) {
+
                 return `${seconds}s ago`;
+
             }
 
 
@@ -2056,8 +2779,13 @@ document.addEventListener(
                 );
 
 
-            if (minutes < 60) {
+            if (
+                minutes <
+                60
+            ) {
+
                 return `${minutes}m ago`;
+
             }
 
 
@@ -2068,8 +2796,13 @@ document.addEventListener(
                 );
 
 
-            if (hours < 24) {
+            if (
+                hours <
+                24
+            ) {
+
                 return `${hours}h ago`;
+
             }
 
 
@@ -2083,17 +2816,6 @@ document.addEventListener(
             return `${days}d ago`;
 
         }
-
-
-        // =================================================
-        // START
-        // =================================================
-
-        loadGitHubProfile();
-
-        loadGitHubActivity();
-
-        loadGitHubProjects();
 
     }
 );
