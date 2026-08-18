@@ -10,7 +10,7 @@
 
     <meta
         name="description"
-        content="Personal developer portfolio showcasing projects, skills, experience and GitHub work."
+        content="Personal developer portfolio showcasing projects, skills, and experience."
     >
 
     <title>JL | Developer Portfolio</title>
@@ -19,13 +19,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
         rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     >
 
     <link rel="stylesheet" href="style.css">
@@ -33,35 +28,27 @@
 
 <body>
 
-    <!-- Scroll Progress -->
-    <div class="scroll-progress" id="scrollProgress"></div>
-
-    <!-- Cursor Glow -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- Background -->
-    <div class="background-effects">
-
-        <div class="grid-background"></div>
+    <!-- Background Effects -->
+    <div class="background">
+        <div class="grid"></div>
 
         <div class="orb orb-one"></div>
         <div class="orb orb-two"></div>
         <div class="orb orb-three"></div>
 
-        <div class="particles" id="particles"></div>
-
+        <div id="cursorGlow"></div>
     </div>
 
-    <!-- Navigation -->
-    <header class="header" id="header">
 
-        <nav class="navbar">
+    <!-- Navigation -->
+    <header class="header">
+
+        <nav class="navbar container">
 
             <a href="#home" class="logo">
-                <span class="logo-bracket">&lt;</span>
+                <span class="logo-symbol">&lt;</span>
                 JL
-                <span class="logo-slash">/</span>
-                <span class="logo-bracket">&gt;</span>
+                <span class="logo-symbol">/&gt;</span>
             </a>
 
             <div class="nav-links" id="navLinks">
@@ -82,310 +69,327 @@
                     Projects
                 </a>
 
-                <a href="#github" class="nav-link">
-                    GitHub
-                </a>
-
                 <a href="#contact" class="nav-link">
                     Contact
                 </a>
 
             </div>
 
-            <div class="nav-actions">
+            <a
+                href="https://github.com/"
+                target="_blank"
+                class="github-nav"
+            >
+                GitHub
+                <span>↗</span>
+            </a>
 
-                <a
-                    href="https://github.com/bacondummy555-ship-it"
-                    target="_blank"
-                    class="github-nav"
-                    aria-label="GitHub"
-                >
-                    <i class="fa-brands fa-github"></i>
-                </a>
-
-                <button
-                    class="menu-button"
-                    id="menuButton"
-                    aria-label="Open navigation"
-                >
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-            </div>
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
         </nav>
 
     </header>
 
+
     <main>
 
-        <!-- HERO -->
+
+        <!-- Hero -->
         <section class="hero section" id="home">
 
-            <div class="hero-content">
+            <div class="container hero-container">
 
-                <div class="availability-badge">
-                    <span class="availability-dot"></span>
-                    AVAILABLE FOR NEW PROJECTS
-                </div>
+                <div class="hero-content reveal">
 
-                <p class="hero-small-title">
-                    HELLO, WORLD. I'M
-                </p>
+                    <div class="availability">
+                        <span class="availability-dot"></span>
+                        Available for opportunities
+                    </div>
 
-                <h1 class="hero-title">
+                    <p class="hero-intro">
+                        Hello, I'm
+                    </p>
 
-                    <span class="hero-name">
+                    <h1 class="hero-title">
                         JL
-                    </span>
+                        <span class="gradient-text">
+                            Developer.
+                        </span>
+                    </h1>
 
-                    <span class="hero-outline">
-                        DEVELOPER.
-                    </span>
+                    <div class="typing-row">
 
-                </h1>
+                        <span class="typing-prefix">
+                            I build
+                        </span>
 
-                <div class="typing-wrapper">
+                        <span
+                            class="typing-text"
+                            id="typingText"
+                        ></span>
 
-                    <span class="typing-prefix">
-                        I build
-                    </span>
-
-                    <span
-                        class="typing-text"
-                        id="typingText"
-                    ></span>
-
-                    <span class="typing-cursor"></span>
-
-                </div>
-
-                <p class="hero-description">
-                    I create modern, responsive and interactive digital
-                    experiences with clean design, powerful functionality
-                    and a passion for building things on the web.
-                </p>
-
-                <div class="hero-buttons">
-
-                    <a href="#projects" class="button primary-button">
-
-                        <span>View My Work</span>
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
-
-                    <a
-                        href="https://github.com/bacondummy555-ship-it"
-                        target="_blank"
-                        class="button secondary-button"
-                    >
-
-                        <i class="fa-brands fa-github"></i>
-
-                        <span>GitHub</span>
-
-                    </a>
-
-                </div>
-
-                <div class="hero-socials">
-
-                    <span class="social-label">
-                        FIND ME ONLINE
-                    </span>
-
-                    <div class="social-line"></div>
-
-                    <a
-                        href="https://github.com/bacondummy555-ship-it"
-                        target="_blank"
-                        aria-label="GitHub"
-                    >
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-
-                    <a
-                        href="#contact"
-                        aria-label="Email"
-                    >
-                        <i class="fa-solid fa-envelope"></i>
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="hero-visual">
-
-                <div class="code-card">
-
-                    <div class="code-card-glow"></div>
-
-                    <div class="code-header">
-
-                        <div class="window-controls">
-
-                            <span></span>
-                            <span></span>
-                            <span></span>
-
-                        </div>
-
-                        <div class="code-file">
-                            portfolio.js
-                        </div>
-
-                        <div class="code-header-icon">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
+                        <span class="typing-cursor"></span>
 
                     </div>
 
-                    <div class="code-body">
+                    <p class="hero-description">
+                        I create modern websites, applications and digital
+                        experiences with clean code, creative ideas and
+                        technology.
+                    </p>
 
-                        <div class="code-line">
+                    <div class="hero-buttons">
 
-                            <span class="line-number">01</span>
+                        <a
+                            href="#projects"
+                            class="button button-primary"
+                        >
+                            Explore Projects
 
-                            <span class="code-content">
-                                <span class="code-purple">const</span>
-                                <span class="code-blue"> developer</span>
-                                =
-                                <span class="code-yellow">{</span>
+                            <span class="button-arrow">
+                                →
                             </span>
+                        </a>
 
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">02</span>
-
-                            <span class="code-content code-indent">
-                                name:
-                                <span class="code-green">'JL'</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">03</span>
-
-                            <span class="code-content code-indent">
-                                role:
-                                <span class="code-green">'Developer'</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">04</span>
-
-                            <span class="code-content code-indent">
-                                passion:
-                                <span class="code-green">'Building cool things'</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">05</span>
-
-                            <span class="code-content code-indent">
-                                skills:
-                                <span class="code-yellow">[</span>
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">06</span>
-
-                            <span class="code-content code-double-indent">
-                                <span class="code-green">'HTML'</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">07</span>
-
-                            <span class="code-content code-double-indent">
-                                <span class="code-green">'CSS'</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">08</span>
-
-                            <span class="code-content code-double-indent">
-                                <span class="code-green">'JavaScript'</span>
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">09</span>
-
-                            <span class="code-content code-indent">
-                                <span class="code-yellow">]</span>,
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">10</span>
-
-                            <span class="code-content code-indent">
-                                status:
-                                <span class="code-green">'Always learning'</span>
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">11</span>
-
-                            <span class="code-content">
-                                <span class="code-yellow">}</span>;
-                            </span>
-
-                        </div>
-
-                        <div class="code-line">
-
-                            <span class="line-number">12</span>
-
-                            <span class="code-content">
-                                <span class="code-purple">export default</span>
-                                developer;
-                            </span>
-
-                        </div>
+                        <a
+                            href="#contact"
+                            class="button button-secondary"
+                        >
+                            Contact Me
+                        </a>
 
                     </div>
 
-                    <div class="terminal-bottom">
+                    <div class="hero-socials">
 
                         <span>
-                            <i class="fa-solid fa-circle-check"></i>
-                            build completed
+                            Find me online
                         </span>
 
-                        <span class="terminal-time">
-                            0 errors
-                        </span>
+                        <div class="social-line"></div>
+
+                        <a
+                            href="https://github.com/"
+                            target="_blank"
+                        >
+                            GitHub
+                        </a>
+
+                        <a href="#">
+                            Discord
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hero Code Card -->
+                <div class="hero-visual reveal">
+
+                    <div class="code-window">
+
+                        <div class="code-header">
+
+                            <div class="window-buttons">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="file-name">
+                                developer.js
+                            </div>
+
+                            <div class="code-header-space"></div>
+
+                        </div>
+
+                        <div class="code-body">
+
+                            <div class="code-line">
+                                <span class="line-number">01</span>
+
+                                <span class="code-purple">
+                                    const
+                                </span>
+
+                                <span class="code-blue">
+                                    developer
+                                </span>
+
+                                =
+                                <span>{</span>
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">02</span>
+
+                                <span class="code-indent"></span>
+
+                                name:
+                                <span class="code-green">
+                                    "JL"
+                                </span>,
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">03</span>
+
+                                <span class="code-indent"></span>
+
+                                passion:
+                                <span class="code-green">
+                                    "Building cool things"
+                                </span>,
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">04</span>
+
+                                <span class="code-indent"></span>
+
+                                skills: [
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">05</span>
+
+                                <span class="code-double-indent"></span>
+
+                                <span class="code-green">
+                                    "Web Development"
+                                </span>,
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">06</span>
+
+                                <span class="code-double-indent"></span>
+
+                                <span class="code-green">
+                                    "JavaScript"
+                                </span>,
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">07</span>
+
+                                <span class="code-double-indent"></span>
+
+                                <span class="code-green">
+                                    "UI / UX"
+                                </span>
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">08</span>
+
+                                <span class="code-indent"></span>
+
+                                ],
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">09</span>
+
+                                <span class="code-indent"></span>
+
+                                learning:
+                                <span class="code-orange">
+                                    true
+                                </span>,
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">10</span>
+
+                                <span class="code-indent"></span>
+
+                                status:
+                                <span class="code-green">
+                                    "Creating..."
+                                </span>
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">11</span>
+                                };
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">12</span>
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">13</span>
+
+                                <span class="code-purple">
+                                    function
+                                </span>
+
+                                <span class="code-blue">
+                                    future
+                                </span>()
+
+                                {
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">14</span>
+
+                                <span class="code-indent"></span>
+
+                                <span class="code-purple">
+                                    return
+                                </span>
+
+                                <span class="code-green">
+                                    "Keep building."
+                                </span>;
+                            </div>
+
+
+                            <div class="code-line">
+                                <span class="line-number">15</span>
+                                }
+                            </div>
+
+                        </div>
+
+
+                        <div class="terminal-line">
+
+                            <span class="terminal-arrow">
+                                ❯
+                            </span>
+
+                            npm run future
+
+                            <span class="terminal-cursor"></span>
+
+                        </div>
 
                     </div>
 
@@ -393,181 +397,131 @@
 
             </div>
 
-            <a href="#about" class="scroll-down">
+
+            <a href="#about" class="scroll-indicator">
 
                 <span>
-                    SCROLL TO EXPLORE
+                    SCROLL
                 </span>
 
-                <div class="mouse">
-
-                    <div class="mouse-wheel"></div>
-
-                </div>
+                <div class="scroll-line"></div>
 
             </a>
 
         </section>
 
-        <!-- ABOUT -->
+
+
+        <!-- About -->
         <section class="section about-section" id="about">
 
-            <div class="section-container">
+            <div class="container">
 
                 <div class="section-heading reveal">
 
-                    <div class="section-number">
+                    <span class="section-number">
                         01.
-                    </div>
+                    </span>
 
-                    <div>
+                    <h2>
+                        About Me
+                    </h2>
 
-                        <span class="section-label">
-                            WHO I AM
-                        </span>
-
-                        <h2>
-                            About
-                            <span>Me.</span>
-                        </h2>
-
-                    </div>
+                    <div class="heading-line"></div>
 
                 </div>
 
+
                 <div class="about-grid">
 
-                    <div class="about-content reveal">
+                    <div class="about-text reveal">
 
-                        <h3>
-                            Building the web,
-                            <span>one idea at a time.</span>
-                        </h3>
-
-                        <p>
-                            I'm a developer who enjoys turning ideas into
-                            clean, responsive and interactive websites.
+                        <p class="about-large">
+                            I love turning
+                            <span class="blue-text">
+                                ideas
+                            </span>
+                            into digital experiences.
                         </p>
 
                         <p>
-                            I enjoy experimenting with new technologies,
-                            designing interfaces and developing projects
-                            that improve my skills while creating something
-                            useful.
+                            I'm a developer who enjoys learning technology,
+                            designing interfaces, building websites and
+                            experimenting with new ideas.
                         </p>
 
                         <p>
-                            My goal is simple: keep learning, keep building
-                            and become better with every project.
+                            My goal is to continuously improve my skills while
+                            creating useful, polished and memorable projects.
                         </p>
 
-                        <div class="about-highlights">
+                        <div class="about-stats">
 
-                            <div class="highlight-item">
+                            <div class="stat-card">
+                                <strong data-count="10">
+                                    0
+                                </strong>
 
-                                <i class="fa-solid fa-location-dot"></i>
-
-                                <div>
-                                    <span>Based in</span>
-                                    <strong>Philippines</strong>
-                                </div>
-
+                                <span>
+                                    Projects
+                                </span>
                             </div>
 
-                            <div class="highlight-item">
+                            <div class="stat-card">
+                                <strong data-count="100">
+                                    0
+                                </strong>
 
-                                <i class="fa-solid fa-code"></i>
-
-                                <div>
-                                    <span>Focus</span>
-                                    <strong>Web Development</strong>
-                                </div>
-
+                                <span>
+                                    Ideas
+                                </span>
                             </div>
 
-                            <div class="highlight-item">
+                            <div class="stat-card">
+                                <strong data-count="24">
+                                    0
+                                </strong>
 
-                                <i class="fa-solid fa-bolt"></i>
-
-                                <div>
-                                    <span>Status</span>
-                                    <strong>Always Learning</strong>
-                                </div>
-
+                                <span>
+                                    Learning
+                                </span>
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div class="stats-grid reveal">
 
-                        <div class="stat-card">
+                    <div class="about-card reveal">
 
-                            <span
-                                class="stat-number"
-                                data-target="10"
-                            >
-                                0
-                            </span>
+                        <div class="about-card-glow"></div>
 
-                            <span class="stat-plus">
-                                +
-                            </span>
+                        <div class="about-card-top">
 
-                            <p>
-                                Projects Built
-                            </p>
+                            <div class="profile-placeholder">
+                                JL
+                            </div>
 
                         </div>
 
-                        <div class="stat-card">
+                        <div class="about-card-content">
 
-                            <span
-                                class="stat-number"
-                                data-target="100"
-                            >
-                                0
+                            <span class="small-label">
+                                CURRENTLY
                             </span>
 
-                            <span class="stat-plus">
-                                %
-                            </span>
+                            <h3>
+                                Building the future,
+                                one project at a time.
+                            </h3>
 
-                            <p>
-                                Passion
-                            </p>
+                            <div class="status-row">
 
-                        </div>
+                                <span class="status-dot"></span>
 
-                        <div class="stat-card">
+                                Coding something new
 
-                            <span
-                                class="stat-number"
-                                data-target="3"
-                            >
-                                0
-                            </span>
-
-                            <span class="stat-plus">
-                                +
-                            </span>
-
-                            <p>
-                                Core Technologies
-                            </p>
-
-                        </div>
-
-                        <div class="stat-card">
-
-                            <span class="infinity">
-                                ∞
-                            </span>
-
-                            <p>
-                                Ideas To Build
-                            </p>
+                            </div>
 
                         </div>
 
@@ -579,198 +533,156 @@
 
         </section>
 
-        <!-- SKILLS -->
+
+
+        <!-- Skills -->
         <section class="section skills-section" id="skills">
 
-            <div class="section-container">
+            <div class="container">
 
                 <div class="section-heading reveal">
 
-                    <div class="section-number">
+                    <span class="section-number">
                         02.
-                    </div>
+                    </span>
 
-                    <div>
+                    <h2>
+                        My Skills
+                    </h2>
 
-                        <span class="section-label">
-                            WHAT I USE
-                        </span>
-
-                        <h2>
-                            My
-                            <span>Skills.</span>
-                        </h2>
-
-                    </div>
+                    <div class="heading-line"></div>
 
                 </div>
+
+
+                <p class="section-description reveal">
+                    Technologies and tools I use to turn ideas into reality.
+                </p>
+
 
                 <div class="skills-grid">
 
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon html-icon">
-
-                            <i class="fa-brands fa-html5"></i>
-
+                        <div class="skill-icon">
+                            &lt;/&gt;
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            HTML
+                        </h3>
 
-                            <h3>
-                                HTML5
-                            </h3>
+                        <p>
+                            Semantic and structured web development.
+                        </p>
 
-                            <p>
-                                Semantic and structured web pages.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="90%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 90%"></span>
                         </div>
 
                     </div>
 
+
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon css-icon">
-
-                            <i class="fa-brands fa-css3-alt"></i>
-
+                        <div class="skill-icon">
+                            #
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            CSS
+                        </h3>
 
-                            <h3>
-                                CSS3
-                            </h3>
+                        <p>
+                            Responsive layouts and modern visual design.
+                        </p>
 
-                            <p>
-                                Responsive layouts and modern animations.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="85%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 85%"></span>
                         </div>
 
                     </div>
 
+
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon js-icon">
-
-                            <i class="fa-brands fa-js"></i>
-
+                        <div class="skill-icon">
+                            JS
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            JavaScript
+                        </h3>
 
-                            <h3>
-                                JavaScript
-                            </h3>
+                        <p>
+                            Interactive websites and web functionality.
+                        </p>
 
-                            <p>
-                                Interactive and dynamic web experiences.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="75%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 75%"></span>
                         </div>
 
                     </div>
 
+
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon git-icon">
-
-                            <i class="fa-brands fa-git-alt"></i>
-
+                        <div class="skill-icon">
+                            GIT
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            Git
+                        </h3>
 
-                            <h3>
-                                Git
-                            </h3>
+                        <p>
+                            Version control and development workflows.
+                        </p>
 
-                            <p>
-                                Version control and development workflow.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="70%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 80%"></span>
                         </div>
 
                     </div>
 
+
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon github-icon">
-
-                            <i class="fa-brands fa-github"></i>
-
+                        <div class="skill-icon">
+                            GH
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            GitHub
+                        </h3>
 
-                            <h3>
-                                GitHub
-                            </h3>
+                        <p>
+                            Project hosting, collaboration and deployments.
+                        </p>
 
-                            <p>
-                                Project hosting and source management.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="75%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 82%"></span>
                         </div>
 
                     </div>
 
+
                     <div class="skill-card reveal">
 
-                        <div class="skill-icon vscode-icon">
-
-                            <i class="fa-solid fa-code"></i>
-
+                        <div class="skill-icon">
+                            UI
                         </div>
 
-                        <div class="skill-content">
+                        <h3>
+                            UI Design
+                        </h3>
 
-                            <h3>
-                                VS Code
-                            </h3>
+                        <p>
+                            Clean interfaces and futuristic experiences.
+                        </p>
 
-                            <p>
-                                My primary development environment.
-                            </p>
-
-                            <div class="skill-bar">
-
-                                <span data-width="90%"></span>
-
-                            </div>
-
+                        <div class="skill-level">
+                            <span style="width: 80%"></span>
                         </div>
 
                     </div>
@@ -781,375 +693,289 @@
 
         </section>
 
-        <!-- PROJECTS -->
+
+
+        <!-- Projects -->
         <section class="section projects-section" id="projects">
 
-            <div class="section-container">
+            <div class="container">
 
                 <div class="section-heading reveal">
 
-                    <div class="section-number">
+                    <span class="section-number">
                         03.
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            SELECTED WORK
-                        </span>
-
-                        <h2>
-                            Featured
-                            <span>Projects.</span>
-                        </h2>
-
-                    </div>
-
-                </div>
-
-                <div class="projects-grid">
-
-                    <article class="project-card featured-project reveal">
-
-                        <div class="project-top">
-
-                            <div class="project-folder">
-
-                                <i class="fa-regular fa-folder-open"></i>
-
-                            </div>
-
-                            <div class="project-links">
-
-                                <a
-                                    href="https://github.com/bacondummy555-ship-it"
-                                    target="_blank"
-                                    aria-label="GitHub Repository"
-                                >
-                                    <i class="fa-brands fa-github"></i>
-                                </a>
-
-                                <a href="#" aria-label="Live Project">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                        <span class="project-number">
-                            PROJECT / 01
-                        </span>
-
-                        <h3>
-                            Personal Portfolio
-                        </h3>
-
-                        <p>
-                            A modern developer portfolio built with a dark
-                            futuristic interface, smooth animations and
-                            responsive design.
-                        </p>
-
-                        <div class="project-tech">
-
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-
-                        </div>
-
-                    </article>
-
-                    <article class="project-card reveal">
-
-                        <div class="project-top">
-
-                            <div class="project-folder">
-
-                                <i class="fa-regular fa-folder-open"></i>
-
-                            </div>
-
-                            <div class="project-links">
-
-                                <a
-                                    href="https://github.com/bacondummy555-ship-it"
-                                    target="_blank"
-                                >
-                                    <i class="fa-brands fa-github"></i>
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                        <span class="project-number">
-                            PROJECT / 02
-                        </span>
-
-                        <h3>
-                            Web Application
-                        </h3>
-
-                        <p>
-                            Interactive web application focused on modern UI,
-                            responsive layouts and smooth functionality.
-                        </p>
-
-                        <div class="project-tech">
-
-                            <span>JavaScript</span>
-                            <span>API</span>
-                            <span>CSS</span>
-
-                        </div>
-
-                    </article>
-
-                    <article class="project-card reveal">
-
-                        <div class="project-top">
-
-                            <div class="project-folder">
-
-                                <i class="fa-regular fa-folder-open"></i>
-
-                            </div>
-
-                            <div class="project-links">
-
-                                <a
-                                    href="https://github.com/bacondummy555-ship-it"
-                                    target="_blank"
-                                >
-                                    <i class="fa-brands fa-github"></i>
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                        <span class="project-number">
-                            PROJECT / 03
-                        </span>
-
-                        <h3>
-                            Upcoming Project
-                        </h3>
-
-                        <p>
-                            Something new is being built. More projects will
-                            automatically appear as my developer journey
-                            continues.
-                        </p>
-
-                        <div class="project-tech">
-
-                            <span>Coming Soon</span>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- GITHUB -->
-        <section class="section github-section" id="github">
-
-            <div class="section-container">
-
-                <div class="section-heading reveal">
-
-                    <div class="section-number">
-                        04.
-                    </div>
-
-                    <div>
-
-                        <span class="section-label">
-                            OPEN SOURCE
-                        </span>
-
-                        <h2>
-                            GitHub
-                            <span>Activity.</span>
-                        </h2>
-
-                    </div>
-
-                </div>
-
-                <div class="github-profile-card reveal">
-
-                    <div class="github-profile-top">
-
-                        <div class="github-profile-left">
-
-                            <div class="github-avatar-wrapper">
-
-                                <img
-                                    id="githubAvatar"
-                                    class="github-avatar"
-                                    src=""
-                                    alt="GitHub Avatar"
-                                >
-
-                                <div class="github-status"></div>
-
-                            </div>
-
-                            <div>
-
-                                <span class="github-label">
-                                    GITHUB PROFILE
-                                </span>
-
-                                <h3 id="githubName">
-                                    Loading...
-                                </h3>
-
-                                <p id="githubUsername">
-                                    @username
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <a
-                            href="https://github.com/bacondummy555-ship-it"
-                            target="_blank"
-                            class="button secondary-button github-profile-button"
-                        >
-                            View Profile
-
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-
-                    </div>
-
-                    <div class="github-stats">
-
-                        <div class="github-stat">
-
-                            <span id="githubRepos">
-                                -
-                            </span>
-
-                            <p>
-                                Repositories
-                            </p>
-
-                        </div>
-
-                        <div class="github-stat">
-
-                            <span id="githubFollowers">
-                                -
-                            </span>
-
-                            <p>
-                                Followers
-                            </p>
-
-                        </div>
-
-                        <div class="github-stat">
-
-                            <span id="githubFollowing">
-                                -
-                            </span>
-
-                            <p>
-                                Following
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="repo-header reveal">
-
-                    <h3>
-                        Latest Repositories
-                    </h3>
-
-                    <span>
-                        LIVE FROM GITHUB API
-                    </span>
-
-                </div>
-
-                <div class="repo-grid" id="repoGrid">
-
-                    <div class="repo-loading">
-
-                        <div class="loader"></div>
-
-                        <span>
-                            Fetching GitHub repositories...
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- CONTACT -->
-        <section class="section contact-section" id="contact">
-
-            <div class="section-container">
-
-                <div class="contact-box reveal">
-
-                    <div class="contact-glow"></div>
-
-                    <span class="section-label">
-                        05. GET IN TOUCH
                     </span>
 
                     <h2>
-                        Have an idea?
-                        <span>Let's build it.</span>
+                        Featured Projects
+                    </h2>
+
+                    <div class="heading-line"></div>
+
+                </div>
+
+
+                <p class="section-description reveal">
+                    Some things I've designed and built.
+                </p>
+
+
+                <div class="projects-grid">
+
+
+                    <!-- Project One -->
+                    <article class="project-card reveal">
+
+                        <div class="project-image">
+
+                            <div class="project-screen">
+
+                                <span class="screen-small">
+                                    WEBSITE
+                                </span>
+
+                                <strong>
+                                    PROJECT
+                                </strong>
+
+                                <span class="screen-blue">
+                                    01
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div class="project-top">
+
+                                <span class="project-type">
+                                    FEATURED PROJECT
+                                </span>
+
+                                <span class="project-number">
+                                    01
+                                </span>
+
+                            </div>
+
+                            <h3>
+                                Personal Portfolio
+                            </h3>
+
+                            <p>
+                                A modern personal portfolio featuring animated
+                                components, responsive layouts and a futuristic
+                                black and blue interface.
+                            </p>
+
+                            <div class="project-tech">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+
+                            <div class="project-links">
+
+                                <a href="#" class="project-link">
+                                    Live Demo ↗
+                                </a>
+
+                                <a
+                                    href="https://github.com/"
+                                    target="_blank"
+                                    class="project-link"
+                                >
+                                    GitHub ↗
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Project Two -->
+                    <article class="project-card reveal">
+
+                        <div class="project-image">
+
+                            <div class="project-screen">
+
+                                <span class="screen-small">
+                                    WEB APP
+                                </span>
+
+                                <strong>
+                                    PROJECT
+                                </strong>
+
+                                <span class="screen-blue">
+                                    02
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div class="project-top">
+
+                                <span class="project-type">
+                                    FEATURED PROJECT
+                                </span>
+
+                                <span class="project-number">
+                                    02
+                                </span>
+
+                            </div>
+
+                            <h3>
+                                Web Application
+                            </h3>
+
+                            <p>
+                                An interactive web application created with
+                                modern front-end technologies and a focus on
+                                usability.
+                            </p>
+
+                            <div class="project-tech">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JavaScript</span>
+                            </div>
+
+                            <div class="project-links">
+
+                                <a href="#" class="project-link">
+                                    Live Demo ↗
+                                </a>
+
+                                <a
+                                    href="https://github.com/"
+                                    target="_blank"
+                                    class="project-link"
+                                >
+                                    GitHub ↗
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Project Three -->
+                    <article class="project-card reveal">
+
+                        <div class="project-image">
+
+                            <div class="project-screen">
+
+                                <span class="screen-small">
+                                    EXPERIMENT
+                                </span>
+
+                                <strong>
+                                    PROJECT
+                                </strong>
+
+                                <span class="screen-blue">
+                                    03
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div class="project-top">
+
+                                <span class="project-type">
+                                    SIDE PROJECT
+                                </span>
+
+                                <span class="project-number">
+                                    03
+                                </span>
+
+                            </div>
+
+                            <h3>
+                                Future Project
+                            </h3>
+
+                            <p>
+                                A place for the next ambitious idea,
+                                experiment or application I decide to build.
+                            </p>
+
+                            <div class="project-tech">
+                                <span>Coming Soon</span>
+                            </div>
+
+                            <div class="project-links">
+
+                                <a href="#" class="project-link">
+                                    Coming Soon
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Contact -->
+        <section class="section contact-section" id="contact">
+
+            <div class="container contact-container">
+
+                <div class="contact-glow"></div>
+
+                <div class="contact-content reveal">
+
+                    <span class="contact-label">
+                        04. WHAT'S NEXT?
+                    </span>
+
+                    <h2>
+                        Let's build something
+                        <span class="gradient-text">
+                            awesome.
+                        </span>
                     </h2>
 
                     <p>
-                        Whether it's a website, project, collaboration or
-                        something completely new, feel free to reach out.
+                        Have an idea, project or opportunity?
+                        Feel free to reach out.
                     </p>
 
-                    <div class="contact-buttons">
+                    <a
+                        href="mailto:your@email.com"
+                        class="button button-primary contact-button"
+                    >
+                        Get In Touch
 
-                        <a
-                            href="mailto:jlibanez666@gmail.com"
-                            class="button primary-button"
-                        >
-                            <i class="fa-solid fa-envelope"></i>
-
-                            Send Me A Message
-                        </a>
-
-                        <a
-                            href="https://github.com/bacondummy555-ship-it"
-                            target="_blank"
-                            class="button secondary-button"
-                        >
-                            <i class="fa-brands fa-github"></i>
-
-                            GitHub
-                        </a>
-
-                    </div>
+                        <span>
+                            →
+                        </span>
+                    </a>
 
                 </div>
 
@@ -1159,41 +985,35 @@
 
     </main>
 
-    <!-- FOOTER -->
+
+
+    <!-- Footer -->
     <footer class="footer">
 
-        <div class="footer-container">
+        <div class="container footer-container">
 
             <a href="#home" class="footer-logo">
-
-                <span>&lt;</span>
-                JL
-                <span>/&gt;</span>
-
+                &lt;JL /&gt;
             </a>
 
             <p>
-                Designed & built with
-                <span class="footer-heart">♥</span>
+                Designed & Built with
+                <span>♥</span>
                 and code.
             </p>
 
-            <p>
-                © <span id="currentYear"></span> JL.
-            </p>
+            <button
+                class="back-top"
+                id="backTop"
+                aria-label="Back to top"
+            >
+                ↑
+            </button>
 
         </div>
 
     </footer>
 
-    <!-- Back to Top -->
-    <button
-        class="back-to-top"
-        id="backToTop"
-        aria-label="Back to top"
-    >
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
 
     <script src="script.js"></script>
 
